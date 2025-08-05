@@ -1,0 +1,26 @@
+[
+  {
+    "id": "apt-detection",
+    "titulo": "Detección de APTs Avanzados",
+    "categoria": "Threat Hunting",
+    "dificultad": "Avanzado",
+    "fecha": "2025-01-15",
+    "tiempo_lectura": 15,
+    "vistas": 1247,
+    "imagen": "apt.jpg",
+    "descripcion": "Técnicas modernas para detectar amenazas persistentes",
+    "archivo": "contenido/apt-detection.html"
+  },
+  {
+    "id": "pfsense-zerotrust",
+    "titulo": "Zero Trust con pfSense",
+    "categoria": "Network Security",
+    "dificultad": "Intermedio",
+    "fecha": "2025-01-10",
+    "tiempo_lectura": 25,
+    "vistas": 1023,
+    "imagen": "pfsense.jpg",
+    "descripcion": "Guía práctica de configuración",
+    "archivo": "contenido/pfsense.html"
+  }
+]
