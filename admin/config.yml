@@ -1,9 +1,12 @@
 backend:
-  name: git-gateway
-  branch: main  # Rama de tu repositorio
+  name: github
+  repo: labroute/labroute.github.io   # Reemplaza TU_USUARIO por tu usuario real de GitHub
+  branch: main
+  base_url: https://bejewelled-salmiakki-da1537.netlify.app  # URL de tu sitio en Netlify
+  auth_endpoint: /.netlify/functions/auth
 
-media_folder: "static/img"  # Carpeta para imágenes
-public_folder: "/img"       # Ruta pública
+media_folder: "static/img"        # Carpeta donde se guardarán las imágenes
+public_folder: "/static/img"      # Ruta pública para acceder a las imágenes
 
 collections:
   - name: "articulos"
@@ -13,12 +16,5 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Título", name: "title", widget: "string" }
-      - { label: "Autor", name: "author", widget: "string", default: "Saul Valenzuela" }
       - { label: "Fecha", name: "date", widget: "datetime" }
-      - { label: "Categoría", name: "category", widget: "select", 
-          options: ["Pentesting", "Threat Hunting", "Network Security"] }
-      - { label: "Dificultad", name: "difficulty", widget: "select", 
-          options: ["Principiante", "Intermedio", "Avanzado"] }
-      - { label: "Imagen destacada", name: "image", widget: "image" }
-      - { label: "Descripción", name: "description", widget: "text" }
       - { label: "Contenido", name: "body", widget: "markdown" }
