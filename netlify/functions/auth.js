@@ -63,77 +63,42 @@ exports.handler = async (event) => {
     };
   }
 
-  // 2) Callback: intercambia "code" por "access_token"
+   // 2) /auth/callback -> intercambia "code" por "access_token"
   if (pathname.endsWith("/callback")) {
     const code = url.searchParams.get("code");
-    if (!code) {
-      return { statusCode: 400, body: "Missing code" };
-    }
+    if (!code) return { statusCode: 400, body: "Missing code" };
 
-    try {
-      const tokenResp = await fetch(GITHUB_TOKEN, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          client_id: CLIENT_ID,
-          client_secret: CLIENT_SECRET,
-          code,
-        }),
-      });
+    const tokenResp = await fetch(GITHUB_TOKEN, {
+      method: "POST",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify({ client_id: CLIENT_ID, client_secret: CLIENT_SECRET, code }),
+    });
+    const data = await tokenResp.json();
+    const token = data && data.access_token ? String(data.access_token) : "";
+    const err   = data.error || "oauth_error";
 
-      const data = await tokenResp.json();
-      const token = data && data.access_token ? String(data.access_token) : "";
-
-      // ⬇️ Formato que Decap CMS espera
-      const html = `
+    const html = `
 <!doctype html>
-<html>
-<head><meta charset="utf-8"></head>
-<body>
+<html><head><meta charset="utf-8"></head><body>
 <script>
   (function () {
     function send(msg){ if (window.opener) { window.opener.postMessage(msg, "*"); } }
     var token = ${JSON.stringify(token)};
     if (token) {
+      // Formato clásico Decap:
       send("authorization:github:success:" + token);
+      // Formato objeto (por compatibilidad):
+      send({ token: token, provider: "github" });
     } else {
-      var err = ${JSON.stringify(data.error || "oauth_error")};
-      send("authorization:github:error:" + err);
+      send("authorization:github:error:${err}");
+      send({ error: "${err}", provider: "github" });
     }
     window.close();
   })();
 </script>
 Cerrando…
 </body></html>`;
-
-      return {
-        statusCode: 200,
-        headers: { "Content-Type": "text/html; charset=utf-8" },
-        body: html,
-      };
-    } catch (e) {
-      const html = `
-<!doctype html>
-<html><head><meta charset="utf-8"></head><body>
-<script>
-  (function () {
-    if (window.opener) {
-      window.opener.postMessage("authorization:github:error:${(e && e.message) || "exception"}", "*");
-    }
-    window.close();
-  })();
-</script>
-Error
-</body></html>`;
-      return {
-        statusCode: 200,
-        headers: { "Content-Type": "text/html; charset=utf-8" },
-        body: html,
-      };
-    }
+    return { statusCode: 200, headers: { "Content-Type": "text/html; charset=utf-8" }, body: html };
   }
 
   // 3) Compat opcional
