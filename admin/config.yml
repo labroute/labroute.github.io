@@ -1,0 +1,24 @@
+backend:
+  name: git-gateway
+  branch: main  # Rama de tu repositorio
+
+media_folder: "static/img"  # Carpeta para imágenes
+public_folder: "/img"       # Ruta pública
+
+collections:
+  - name: "articulos"
+    label: "Artículos"
+    folder: "articulos/contenido"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Autor", name: "author", widget: "string", default: "Saul Valenzuela" }
+      - { label: "Fecha", name: "date", widget: "datetime" }
+      - { label: "Categoría", name: "category", widget: "select", 
+          options: ["Pentesting", "Threat Hunting", "Network Security"] }
+      - { label: "Dificultad", name: "difficulty", widget: "select", 
+          options: ["Principiante", "Intermedio", "Avanzado"] }
+      - { label: "Imagen destacada", name: "image", widget: "image" }
+      - { label: "Descripción", name: "description", widget: "text" }
+      - { label: "Contenido", name: "body", widget: "markdown" }
