@@ -38,7 +38,7 @@ exports.handler = async (event) => {
     };
   }
 
-  // 2) /auth/callback -> intercambia "code" por "access_token"
+   // 2) /auth/callback -> intercambia "code" por "access_token"
   if (pathname.endsWith("/callback")) {
     const code = url.searchParams.get("code");
     if (!code) {
@@ -59,6 +59,28 @@ exports.handler = async (event) => {
       }),
     });
     const data = await tokenResp.json();
+
+    //  Decap CMS espera un string con el formato:
+    //    "authorization:github:success:<TOKEN>"  (o "authorization:github:error:<ERR>")
+    const html = `
+<!doctype html><html><head><meta charset="utf-8"></head><body>
+<script>
+  (function () {
+    function send(msg){ if (window.opener) { window.opener.postMessage(msg, "*"); } }
+    var token = ${JSON.stringify(data.access_token || "")};
+    if (token) {
+      send("authorization:github:success:" + token);
+    } else {
+      var err = ${JSON.stringify(data.error || "oauth_error")};
+      send("authorization:github:error:" + err);
+    }
+    window.close();
+  })();
+</script>
+Cerrando…
+</body></html>`;
+    return { statusCode: 200, headers: { "Content-Type": "text/html; charset=utf-8" }, body: html };
+  }
 
     // Devuelve una página que guarda el token y cierra el popup (flujo Decap)
     const html = `
