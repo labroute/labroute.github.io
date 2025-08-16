@@ -19,7 +19,7 @@ El *Buffer Overflow* es uno de los primeros conceptos que muchos hackers éticos
 
 Un *buffer* es un espacio en memoria destinado a almacenar datos temporales. Por ejemplo, cuando un programa pide al usuario que ingrese su nombre, este se guarda en un buffer.
 
-El problema surge cuando el programador no valida la longitud de lo que se ingresa, permitiendo que datos extra sobrescriban otras partes de la memoria.
+El problema surge cuando el programador no válida la longitud de lo que se ingresa, permitiendo que datos extra sobrescriban otras partes de la memoria.
 
 ## Ejemplo sencillo
 
@@ -69,7 +69,7 @@ El uso de `gets()` sin validación es un ejemplo clásico de función vulnerable
 
 Hoy en día existen varias defensas:
 
-* **Stack Canaries** 🛡️: detectan sobreescritura de memoria.
+* **Stack Canaries** 🛡️: detectan sobrescritura de memoria.
 
   **DEP (Data Execution Prevention)**: evita ejecutar código en memoria de datos.
 
