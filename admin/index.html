@@ -28,5 +28,48 @@
 </head>
 <body class="bg-slate-900">
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+  // Fuerza a persistir el token recibido y recargar el panel
+  (function () {
+    function persistAndReload(token) {
+      try {
+        localStorage.setItem(
+          "netlify-cms-user",
+          JSON.stringify({
+            token: token,
+            backendName: "github",
+            login: "oauth",
+            provider: "github",
+          })
+        );
+        // Pequeña espera para asegurar escritura en storage y luego recarga
+        setTimeout(function () { window.location.reload(); }, 200);
+      } catch (e) {
+        console.error("[Decap FORCE LOGIN] Error guardando token:", e);
+      }
+    }
+
+    window.addEventListener("message", function (event) {
+      try {
+        // Caso 1: formato string "authorization:github:success:<TOKEN>"
+        if (typeof event.data === "string" && event.data.indexOf("authorization:github:success:") === 0) {
+          var token = event.data.split(":").pop();
+          console.log("[Decap FORCE LOGIN] Token (string) capturado");
+          persistAndReload(token);
+          return;
+        }
+        // Caso 2: formato objeto { token: "...", provider: "github" }
+        if (event.data && event.data.token) {
+          console.log("[Decap FORCE LOGIN] Token (objeto) capturado");
+          persistAndReload(event.data.token);
+          return;
+        }
+      } catch (e) {
+        console.error("[Decap FORCE LOGIN] Error procesando postMessage:", e);
+      }
+    });
+  })();
+</script>
+
 </body>
 </html>
