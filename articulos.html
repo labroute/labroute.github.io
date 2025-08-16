@@ -282,19 +282,6 @@
     async function fetchJSON(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }
     async function fetchText(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); }
 
-<script>
-  function normalizeCover(p) {
-    if (!p) return null;
-    // Si es absoluta, quita el dominio para convertirla en ruta del sitio
-    if (/^https?:\/\//i.test(p)) {
-      try { p = p.replace(/^https?:\/\/[^/]+/, ''); } catch(_) {}
-    }
-    p = String(p).trim().replace(/^['"]|['"]$/g, '');
-    // Asegura que empiece con /
-    return p.startsWith('/') ? p : `/${p}`;
-  }
-</script>
-
 
   <script>  
     // Carga desde GitHub
@@ -338,4 +325,5 @@
   </script>
 </body>
 </html>
+
 
