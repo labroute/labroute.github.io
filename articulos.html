@@ -282,6 +282,21 @@
     async function fetchJSON(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }
     async function fetchText(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); }
 
+<script>
+  function normalizeCover(p) {
+    if (!p) return null;
+    // Si es absoluta, quita el dominio para convertirla en ruta del sitio
+    if (/^https?:\/\//i.test(p)) {
+      try { p = p.replace(/^https?:\/\/[^/]+/, ''); } catch(_) {}
+    }
+    p = String(p).trim().replace(/^['"]|['"]$/g, '');
+    // Asegura que empiece con /
+    return p.startsWith('/') ? p : `/${p}`;
+  }
+</script>
+
+
+  <script>  
     // Carga desde GitHub
     async function loadArticles() {
       const listURL = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${CONTENT_PATH}?ref=${GH_BRANCH}`;
@@ -302,7 +317,7 @@
           category: data.category || null,
           difficulty: data.difficulty || null,
           reading_time: data.reading_time || null,
-          cover: data.cover || null,
+          cover: normalizeCover(data.cover || null),
           excerpt: data.excerpt || (parsed.content.trim().split("\n").slice(0,3).join(" ").substring(0,180) + "…"),
           views: data.views || null,
           body: parsed.content
@@ -323,3 +338,4 @@
   </script>
 </body>
 </html>
+
