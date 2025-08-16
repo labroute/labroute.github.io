@@ -12,69 +12,82 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
 
-  <!-- Estilos mínimos para mantener look & feel -->
+  <!-- Estilos globales y fondos (match con index) -->
   <style>
-    :root {
-      --bg: #0b1220;
-      --card: rgba(15,23,42,.60);
-      --border: rgba(148,163,184,.28);
-      --border-hover: rgba(148,163,184,.55);
-      --muted: #93a3b8;
+    :root{
+      --bg:#0b1220;
+      --card:rgba(15,23,42,.60);
+      --border:rgba(148,163,184,.28);
+      --border-hover:rgba(148,163,184,.55);
+      --muted:#93a3b8;
     }
-    body {
-      background: radial-gradient(1200px 800px at 50% -220px, rgba(56,189,248,.08), transparent 60%) var(--bg);
-      color: #e5e7eb;
+    /* Fondo base + resplandor superior */
+    body{
+      color:#e5e7eb;
+      background:
+        radial-gradient(1000px 600px at 50% -180px, rgba(56,189,248,.12), transparent 55%),
+        var(--bg);
+      min-height:100vh;
+      overflow-x:hidden;
     }
-    .container { max-width: 1200px; }
-    .pill { border:1px solid var(--border); background: rgba(15,23,42,.55); }
-    .article-card {
-      background: var(--card);
+    /* Grid sutil animada */
+    .bg-grid{
+      position:fixed; inset:0; z-index:-10; pointer-events:none;
+      background:
+        linear-gradient(rgba(148,163,184,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148,163,184,.08) 1px, transparent 1px);
+      background-size: 36px 36px, 36px 36px;
+      mask-image: radial-gradient(ellipse at 50% 0%, rgba(0,0,0,.9) 0%, transparent 65%);
+      animation: gridMove 25s linear infinite;
+    }
+    @keyframes gridMove { from{background-position:0 0,0 0} to{background-position:0 36px,36px 0} }
+
+    /* Orbes borrosos como en el index */
+    .orb{position:fixed; filter:blur(60px); opacity:.45; z-index:-10; pointer-events:none;}
+    .orb--sky{width:520px;height:520px;top:10vh;left:-120px;background:radial-gradient(circle at 30% 30%, rgba(56,189,248,.55), rgba(56,189,248,0) 60%);}
+    .orb--violet{width:520px;height:520px;bottom:-120px;right:-120px;background:radial-gradient(circle at 70% 70%, rgba(168,85,247,.45), rgba(168,85,247,0) 60%);}
+
+    /* Contenedores y tarjetas */
+    .container{max-width:1200px;}
+    .pill{border:1px solid var(--border); background:rgba(15,23,42,.55);}
+    .article-card{
+      background:var(--card);
       border:1px solid var(--border);
-      border-radius: 1rem;
-      transition: border-color .2s, box-shadow .2s, transform .2s;
+      border-radius:1rem;
+      transition:border-color .2s, box-shadow .2s, transform .2s;
     }
-    .article-card:hover {
-      border-color: var(--border-hover);
-      box-shadow: 0 10px 25px rgba(0,0,0,.25);
-      transform: translateY(-1px);
-    }
-    .category-badge, .difficulty-badge {
+    .article-card:hover{ border-color:var(--border-hover); box-shadow:0 10px 25px rgba(0,0,0,.25); transform:translateY(-1px); }
+
+    .category-badge,.difficulty-badge{
       display:inline-block; font-size:.70rem; font-weight:700; letter-spacing:.35px;
       padding:.28rem .6rem; border-radius:.55rem; background:#1f2937; border:1px solid rgba(100,116,139,.35);
     }
-    .category-badge { color:#60a5fa; }
-    .difficulty-badge { color:#f59e0b; }
-    .difficulty-beginner { color:#34d399 !important; }
-    .difficulty-intermediate { color:#f59e0b !important; }
-    .difficulty-advanced { color:#f87171 !important; }
-    .subtitle { color: var(--muted); }
+    .category-badge{ color:#60a5fa; }
+    .difficulty-badge{ color:#f59e0b; }
+    .difficulty-beginner{ color:#34d399 !important; }
+    .difficulty-intermediate{ color:#f59e0b !important; }
+    .difficulty-advanced{ color:#f87171 !important; }
+    .subtitle{ color:var(--muted); }
 
     /* Código inline y bloques */
     .prose :where(code){
-      background:#0f172a;
-      padding:.12rem .28rem;
-      border-radius:.35rem;
-      border:1px solid rgba(148,163,184,.15);
+      background:#0f172a; padding:.12rem .28rem; border-radius:.35rem; border:1px solid rgba(148,163,184,.15);
     }
-    .prose pre {
-      background:#0f172a;
-      border:1px solid rgba(148,163,184,.18);
-      border-radius:.75rem;
-      padding:1rem;
-      overflow:auto;
-      margin:1rem 0 1.25rem;
+    .prose pre{
+      background:#0f172a; border:1px solid rgba(148,163,184,.18); border-radius:.75rem;
+      padding:1rem; overflow:auto; margin:1rem 0 1.25rem;
     }
-    .prose pre code {
-      background:transparent;
-      padding:0;
-      border:0;
-    }
-
-    .hidden { display:none; }
+    .prose pre code{ background:transparent; padding:0; border:0; }
+    .hidden{display:none;}
   </style>
 </head>
 
 <body class="min-h-screen flex flex-col">
+  <!-- Background FX -->
+  <div class="bg-grid"></div>
+  <div class="orb orb--sky"></div>
+  <div class="orb orb--violet"></div>
+
   <!-- Header -->
   <header class="w-full">
     <div class="container mx-auto px-6 py-6 flex items-center justify-between">
@@ -169,29 +182,28 @@
 
   <!-- Parser de front matter (YAML al inicio) -->
   <script>
-    function parseFrontMatter(text) {
-      if (text.slice(0,3) !== '---') return { data:{}, content:text };
-      const end = text.indexOf('\n---', 3);
-      if (end === -1) return { data:{}, content:text };
-      const yaml = text.slice(3, end);
-      const body = text.slice(end + 4);
-      let data = {};
-      try { data = jsyaml.load(yaml) || {}; } catch(e) { data = {}; }
-      return { data, content: body.trim() };
+    function parseFrontMatter(text){
+      if (text.slice(0,3)!=='---') return {data:{},content:text};
+      const end = text.indexOf('\n---',3);
+      if (end===-1) return {data:{},content:text};
+      const yaml = text.slice(3,end);
+      const body = text.slice(end+4);
+      let data={};
+      try{ data = jsyaml.load(yaml)||{} }catch{ data={} }
+      return {data, content: body.trim()};
     }
   </script>
 
   <!-- Lógica: listar, filtrar y detalle desde GitHub + resaltado de código -->
   <script>
-    /* === Configurar Marked con Highlight.js === */
+    /* === Marked + Highlight.js === */
     marked.setOptions({
-      gfm: true,
-      breaks: false,
-      highlight: (code, lang) => {
-        try {
-          return lang ? hljs.highlight(code, { language: lang }).value
-                      : hljs.highlightAuto(code).value;
-        } catch { return hljs.highlightAuto(code).value; }
+      gfm:true,
+      breaks:false,
+      highlight:(code,lang)=>{
+        try{ return lang ? hljs.highlight(code,{language:lang}).value
+                         : hljs.highlightAuto(code).value; }
+        catch{ return hljs.highlightAuto(code).value; }
       }
     });
 
@@ -199,7 +211,7 @@
     const GH_USER   = "labroute";
     const GH_REPO   = "labroute.github.io";
     const GH_BRANCH = "main";
-    const CONTENT_PATH = "articulos/contenido"; // carpeta de .md que crea el CMS
+    const CONTENT_PATH = "articulos/contenido";
 
     // Hooks UI
     const gridEl        = document.getElementById("articles-grid");
@@ -210,19 +222,19 @@
     let ARTICLES = [];
 
     // Helpers
-    const diffClass = (d) =>
-      d === "Avanzado" ? "difficulty-advanced" :
-      d === "Intermedio" ? "difficulty-intermediate" : "difficulty-beginner";
+    const diffClass = (d)=>
+      d==="Avanzado" ? "difficulty-advanced" :
+      d==="Intermedio" ? "difficulty-intermediate" : "difficulty-beginner";
 
-    function cardTemplate(a) {
+    function cardTemplate(a){
       return `
         <div class="article-card p-6">
           <div class="mb-3">
-            <span class="category-badge">${a.category || "General"}</span>
-            <span class="difficulty-badge ${diffClass(a.difficulty || "Intermedio")}">${a.difficulty || "Intermedio"}</span>
+            <span class="category-badge">${a.category||"General"}</span>
+            <span class="difficulty-badge ${diffClass(a.difficulty||"Intermedio")}">${a.difficulty||"Intermedio"}</span>
           </div>
           <h3 class="text-xl font-bold mb-3">${a.title}</h3>
-          <p class="text-slate-400 mb-4 text-sm leading-relaxed">${a.excerpt || ""}</p>
+          <p class="text-slate-400 mb-4 text-sm leading-relaxed">${a.excerpt||""}</p>
           <div class="flex items-center justify-between text-xs text-slate-500 mb-4">
             <div class="flex items-center">
               <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -237,7 +249,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
               </svg>
-              ${a.views || "—"} vistas
+              ${a.views||"—"} vistas
             </div>
           </div>
           <div class="text-xs text-slate-500 mb-4">
@@ -247,81 +259,72 @@
                   data-slug="${a.slug}">
             Leer Artículo
           </button>
-        </div>
-      `;
+        </div>`;
     }
 
-    function renderCards(list) {
-      if (!list.length) {
-        gridEl.innerHTML = `<div class="text-slate-400">No hay artículos publicados aún.</div>`;
-        return;
-      }
+    function renderCards(list){
+      if(!list.length){ gridEl.innerHTML = `<div class="text-slate-400">No hay artículos publicados aún.</div>`; return; }
       gridEl.innerHTML = list.map(cardTemplate).join("");
-      gridEl.querySelectorAll("button[data-slug]").forEach(btn => {
-        btn.addEventListener("click", () => openDetail(btn.dataset.slug));
+      gridEl.querySelectorAll("button[data-slug]").forEach(btn=>{
+        btn.addEventListener("click",()=>openDetail(btn.dataset.slug));
       });
     }
 
-    function normalizeCover(p) {
-      if (!p) return null;
-      // Si es absoluta, quita el dominio para convertirla en ruta del sitio
-      if (/^https?:\/\//i.test(p)) {
-        try { p = p.replace(/^https?:\/\/[^/]+/, ''); } catch(_) {}
-      }
-      p = String(p).trim().replace(/^['"]|['"]$/g, '');
+    function normalizeCover(p){
+      if(!p) return null;
+      if(/^https?:\/\//i.test(p)){ try{ p = p.replace(/^https?:\/\/[^/]+/,''); }catch{} }
+      p = String(p).trim().replace(/^['"]|['"]$/g,'');
       return p.startsWith('/') ? p : `/${p}`;
     }
 
-    async function openDetail(slug) {
-      const art = ARTICLES.find(x => x.slug === slug);
-      if (!art) return;
+    async function openDetail(slug){
+      const art = ARTICLES.find(x=>x.slug===slug);
+      if(!art) return;
 
       const metaWrap = detailSection.querySelector(".article-meta");
       metaWrap.innerHTML = `
-        <span class="category-badge">${art.category || "General"}</span>
-        <span class="difficulty-badge ${diffClass(art.difficulty || "Intermedio")}">${art.difficulty || "Intermedio"}</span>
+        <span class="category-badge">${art.category||"General"}</span>
+        <span class="difficulty-badge ${diffClass(art.difficulty||"Intermedio")}">${art.difficulty||"Intermedio"}</span>
         <span class="ml-2 text-sm text-slate-400">${art.reading_time ? `${art.reading_time} min lectura` : ""}</span>
       `;
       detailSection.querySelector("h1").textContent = art.title;
 
       const contentEl = detailSection.querySelector(".article-content");
       const cover = art.cover ? `<img src="${art.cover}" alt="${art.title}" class="w-full h-64 object-cover rounded-xl mb-8">` : "";
-      contentEl.innerHTML = cover + marked.parse(art.body || "");
-
-      // Aplicar highlight a todos los bloques de código del artículo
-      contentEl.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+      contentEl.innerHTML = cover + marked.parse(art.body||"");
+      contentEl.querySelectorAll('pre code').forEach(el=>hljs.highlightElement(el));
 
       listSection.classList.add("hidden");
       detailSection.classList.remove("hidden");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({top:0,behavior:"smooth"});
     }
 
-    document.getElementById("back-to-articles").addEventListener("click", (e) => {
+    document.getElementById("back-to-articles").addEventListener("click",(e)=>{
       e.preventDefault();
       detailSection.classList.add("hidden");
       listSection.classList.remove("hidden");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({top:0,behavior:"smooth"});
     });
 
     // Filtros
-    document.querySelectorAll(".filter-button").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".filter-button").forEach(b => b.classList.remove("ring-2","ring-sky-500"));
+    document.querySelectorAll(".filter-button").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        document.querySelectorAll(".filter-button").forEach(b=>b.classList.remove("ring-2","ring-sky-500"));
         btn.classList.add("ring-2","ring-sky-500");
         const cat = btn.dataset.filter;
-        const list = (cat === "Todos") ? ARTICLES
-          : ARTICLES.filter(a => (a.category || "").toLowerCase() === cat.toLowerCase());
+        const list = (cat==="Todos") ? ARTICLES
+          : ARTICLES.filter(a=>(a.category||"").toLowerCase()===cat.toLowerCase());
         renderCards(list);
       });
     });
 
     // Búsqueda
-    if (searchEl) {
-      searchEl.addEventListener("input", (e) => {
+    if(searchEl){
+      searchEl.addEventListener("input",(e)=>{
         const q = e.target.value.toLowerCase();
         const list = ARTICLES.filter(a =>
-          (a.title || "").toLowerCase().includes(q) ||
-          (a.excerpt || "").toLowerCase().includes(q)
+          (a.title||"").toLowerCase().includes(q) ||
+          (a.excerpt||"").toLowerCase().includes(q)
         );
         renderCards(list);
       });
@@ -332,40 +335,38 @@
     async function fetchText(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); }
 
     // Carga desde GitHub
-    async function loadArticles() {
+    async function loadArticles(){
       const listURL = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${CONTENT_PATH}?ref=${GH_BRANCH}`;
       const files = await fetchJSON(listURL);
-      const mdFiles = files.filter(f => f.name.toLowerCase().endsWith(".md"));
+      const mdFiles = files.filter(f=>f.name.toLowerCase().endsWith(".md"));
 
       const items = [];
-      for (const f of mdFiles) {
+      for(const f of mdFiles){
         const rawURL = `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/${GH_BRANCH}/${CONTENT_PATH}/${encodeURIComponent(f.name)}`;
-        const text = await fetchText(rawURL);
+        const text   = await fetchText(rawURL);
         const parsed = parseFrontMatter(text);
-        const data   = parsed.data || {};
+        const data   = parsed.data||{};
 
         items.push({
           slug: f.name.replace(/\.md$/i,""),
-          title: data.title || f.name,
-          date: data.date || null,
-          category: data.category || null,
-          difficulty: data.difficulty || null,
-          reading_time: data.reading_time || null,
-          cover: normalizeCover(data.cover || null),
-          excerpt: data.excerpt || (parsed.content.trim().split("\n").slice(0,3).join(" ").substring(0,180) + "…"),
-          views: data.views || null,
+          title: data.title||f.name,
+          date: data.date||null,
+          category: data.category||null,
+          difficulty: data.difficulty||null,
+          reading_time: data.reading_time||null,
+          cover: normalizeCover(data.cover||null),
+          excerpt: data.excerpt || (parsed.content.trim().split("\n").slice(0,3).join(" ").substring(0,180)+"…"),
+          views: data.views||null,
           body: parsed.content
         });
       }
 
-      // Orden por fecha desc
       items.sort((a,b)=> new Date(b.date||0) - new Date(a.date||0));
-
       ARTICLES = items;
       renderCards(ARTICLES);
     }
 
-    loadArticles().catch(err => {
+    loadArticles().catch(err=>{
       console.error("Error_cargando_articulos:", err);
       gridEl.innerHTML = `<div class="text-slate-400">No se pudieron cargar los artículos.</div>`;
     });
