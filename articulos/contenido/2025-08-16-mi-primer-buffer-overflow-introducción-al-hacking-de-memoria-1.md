@@ -6,7 +6,7 @@ excerpt: El Buffer Overflow es una de las vulnerabilidades más clásicas y
   cómo ocurre y por qué sigue siendo relevante en el mundo moderno. Ideal para
   quienes quieren dar sus primeros pasos en la explotación de vulnerabilidades
   de memoria, con ejemplos prácticos y explicaciones sencillas.
-category: Penetration Testing
+category: Threat Hunting
 difficulty: Intermedio
 reading_time: 7
 cover: /static/img/chatgpt-image-aug-15-2025-09_15_37-pm.png
