@@ -173,7 +173,9 @@
             backdrop-filter: blur(2px);
         }
 
-    /* FORZAR estilos de código - Muy específico */
+/* FORZAR estilos de código - Ultra específico */
+.prose pre, 
+.article-content pre,
 pre {
     background: #f8fafc !important;
     border: 1px solid #e2e8f0 !important;
@@ -181,8 +183,11 @@ pre {
     border-radius: 0.75rem !important;
     padding: 3rem 1.5rem 1.5rem 1.5rem !important;
     position: relative !important;
+    color: #1e293b !important;
 }
 
+.prose pre::before,
+.article-content pre::before,
 pre::before {
     content: 'Example' !important;
     position: absolute !important;
@@ -192,19 +197,58 @@ pre::before {
     font-size: 0.875rem !important;
     font-weight: 600 !important;
     font-family: 'Inter', sans-serif !important;
+    z-index: 10 !important;
 }
 
-pre code, pre code * {
-    color: #1e293b !important;
+.prose pre::after,
+.article-content pre::after,
+pre::after {
+    content: 'Ver en LabRoute' !important;
+    position: absolute !important;
+    top: 0.75rem !important;
+    right: 1rem !important;
+    background: #374151 !important;
+    color: white !important;
+    padding: 0.375rem 0.75rem !important;
+    border-radius: 0.375rem !important;
+    font-size: 0.75rem !important;
+    font-weight: 500 !important;
+    font-family: 'Inter', sans-serif !important;
+    z-index: 10 !important;
+}
+
+/* Forzar colores de texto en el código */
+.prose pre code,
+.article-content pre code,
+pre code,
+.prose pre code *,
+.article-content pre code *,
+pre code * {
     background: transparent !important;
+    color: #1e293b !important;
 }
 
+/* Colores específicos de sintaxis */
+.hljs-keyword { color: #0ea5e9 !important; font-weight: 600 !important; }
+.hljs-string { color: #059669 !important; }
+.hljs-number { color: #dc2626 !important; }
+.hljs-comment { color: #6b7280 !important; font-style: italic !important; }
+.hljs-function { color: #7c3aed !important; }
+.hljs-variable { color: #1e293b !important; }
+.hljs-type { color: #0ea5e9 !important; }
+.hljs-built_in { color: #0891b2 !important; }
+.hljs-title { color: #7c3aed !important; }
+
+/* Código inline */
+.prose code:not(pre code),
+.article-content code:not(pre code),
 code:not(pre code) {
     background: rgba(14, 165, 233, 0.1) !important;
     color: #0ea5e9 !important;
     padding: 0.2rem 0.5rem !important;
     border-radius: 0.375rem !important;
     border: 1px solid rgba(14, 165, 233, 0.2) !important;
+    font-family: 'Fira Code', monospace !important;
 }
     </style>
 </head>
@@ -732,6 +776,7 @@ code:not(pre code) {
     </script>
 </body>
 </html>
+
 
 
 
