@@ -1,104 +1,242 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Artículos Técnicos - LabRoute</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artículos Técnicos - LabRoute</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Highlight.js (resaltado de código) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-blue: #0ea5e9;
+            --secondary-blue: #1e40af;
+            --accent-orange: #f97316;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-muted: #64748b;
+        }
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
 
-  <!-- Highlight.js (resaltado de código) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
 
-  <!-- Estilos globales y fondos (match con index) -->
-  <style>
-    :root{
-      --bg:#0b1220;
-      --card:rgba(15,23,42,.60);
-      --border:rgba(148,163,184,.28);
-      --border-hover:rgba(148,163,184,.55);
-      --muted:#93a3b8;
-    }
-    /* Fondo base + resplandor superior */
-    body{
-      color:#e5e7eb;
-      background:
-        radial-gradient(1000px 600px at 50% -180px, rgba(56,189,248,.12), transparent 55%),
-        var(--bg);
-      min-height:100vh;
-      overflow-x:hidden;
-    }
-    /* Grid sutil animada */
-    .bg-grid{
-      position:fixed; inset:0; z-index:-10; pointer-events:none;
-      background:
-        linear-gradient(rgba(148,163,184,.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(148,163,184,.08) 1px, transparent 1px);
-      background-size: 36px 36px, 36px 36px;
-      mask-image: radial-gradient(ellipse at 50% 0%, rgba(0,0,0,.9) 0%, transparent 65%);
-      animation: gridMove 25s linear infinite;
-    }
-    @keyframes gridMove { from{background-position:0 0,0 0} to{background-position:0 36px,36px 0} }
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    /* Orbes borrosos como en el index */
-    .orb{position:fixed; filter:blur(60px); opacity:.45; z-index:-10; pointer-events:none;}
-    .orb--sky{width:520px;height:520px;top:10vh;left:-120px;background:radial-gradient(circle at 30% 30%, rgba(56,189,248,.55), rgba(56,189,248,0) 60%);}
-    .orb--violet{width:520px;height:520px;bottom:-120px;right:-120px;background:radial-gradient(circle at 70% 70%, rgba(168,85,247,.45), rgba(168,85,247,0) 60%);}
+        .card-hover {
+            transition: all 0.3s ease;
+        }
 
-    /* Contenedores y tarjetas */
-    .container{max-width:1200px;}
-    .pill{border:1px solid var(--border); background:rgba(15,23,42,.55);}
-    .article-card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:1rem;
-      transition:border-color .2s, box-shadow .2s, transform .2s;
-    }
-    .article-card:hover{ border-color:var(--border-hover); box-shadow:0 10px 25px rgba(0,0,0,.25); transform:translateY(-1px); }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.1);
+        }
 
-    .category-badge,.difficulty-badge{
-      display:inline-block; font-size:.70rem; font-weight:700; letter-spacing:.35px;
-      padding:.28rem .6rem; border-radius:.55rem; background:#1f2937; border:1px solid rgba(100,116,139,.35);
-    }
-    .category-badge{ color:#60a5fa; }
-    .difficulty-badge{ color:#f59e0b; }
-    .difficulty-beginner{ color:#34d399 !important; }
-    .difficulty-intermediate{ color:#f59e0b !important; }
-    .difficulty-advanced{ color:#f87171 !important; }
-    .subtitle{ color:var(--muted); }
+        .blob {
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(249, 115, 22, 0.1));
+            animation: blob 7s ease-in-out infinite;
+        }
 
-    /* Código inline y bloques */
-    .prose :where(code){
-      background:#0f172a; padding:.12rem .28rem; border-radius:.35rem; border:1px solid rgba(148,163,184,.15);
-    }
-    .prose pre{
-      background:#0f172a; border:1px solid rgba(148,163,184,.18); border-radius:.75rem;
-      padding:1rem; overflow:auto; margin:1rem 0 1.25rem;
-    }
-    .prose pre code{ background:transparent; padding:0; border:0; }
-    .hidden{display:none;}
-  </style>
+        .blob-2 {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(30, 64, 175, 0.1));
+            animation: blob 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes blob {
+            0%, 100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+
+        .particle {
+            width: 4px;
+            height: 4px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            position: absolute;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { top: 20%; left: 20%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: 80%; left: 80%; animation-delay: 1s; }
+        .particle:nth-child(3) { top: 40%; left: 80%; animation-delay: 2s; }
+        .particle:nth-child(4) { top: 80%; left: 20%; animation-delay: 1.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        .nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-orange));
+            transition: left 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            left: 0;
+        }
+
+        .content-section {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(2px);
+        }
+
+        /* Estilos específicos para artículos */
+        .category-badge, .difficulty-badge {
+            display: inline-block;
+            font-size: 0.70rem;
+            font-weight: 700;
+            letter-spacing: 0.35px;
+            padding: 0.28rem 0.6rem;
+            border-radius: 0.55rem;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(100, 116, 139, 0.35);
+        }
+
+        .category-badge { 
+            color: var(--primary-blue);
+            background: rgba(14, 165, 233, 0.1);
+            border-color: rgba(14, 165, 233, 0.2);
+        }
+        
+        .difficulty-badge { 
+            color: var(--accent-orange);
+            background: rgba(249, 115, 22, 0.1);
+            border-color: rgba(249, 115, 22, 0.2);
+        }
+
+        .difficulty-beginner { 
+            color: #34d399 !important; 
+            background: rgba(52, 211, 153, 0.1) !important;
+            border-color: rgba(52, 211, 153, 0.2) !important;
+        }
+        
+        .difficulty-intermediate { 
+            color: #f59e0b !important;
+            background: rgba(245, 158, 11, 0.1) !important;
+            border-color: rgba(245, 158, 11, 0.2) !important;
+        }
+        
+        .difficulty-advanced { 
+            color: #f87171 !important;
+            background: rgba(248, 113, 113, 0.1) !important;
+            border-color: rgba(248, 113, 113, 0.2) !important;
+        }
+
+        .search-bar {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
+        }
+
+        .filter-button {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .filter-button:hover {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: var(--primary-blue);
+        }
+
+        .filter-button.active {
+            background: rgba(14, 165, 233, 0.2);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        /* Código inline y bloques */
+        .prose :where(code) {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 0.12rem 0.28rem;
+            border-radius: 0.35rem;
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            color: var(--primary-blue);
+        }
+
+        .prose pre {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            overflow: auto;
+            margin: 1rem 0 1.25rem;
+        }
+
+        .prose pre code {
+            background: transparent;
+            padding: 0;
+            border: 0;
+            color: inherit;
+        }
+
+        .hidden { display: none; }
+    </style>
 </head>
+<body class="bg-slate-900 text-white overflow-x-hidden">
+    <!-- Background Elements -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="blob absolute w-72 h-72 -top-32 -left-32"></div>
+        <div class="blob-2 absolute w-96 h-96 -bottom-48 -right-48"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
 
-<body class="min-h-screen flex flex-col">
-  <!-- Background FX -->
-  <div class="bg-grid"></div>
-  <div class="orb orb--sky"></div>
-  <div class="orb orb--violet"></div>
-
-  <!-- Navigation -->
+    <!-- Navigation -->
     <nav class="fixed top-0 w-full bg-slate-900/80 backdrop-blur-lg border-b border-slate-800 z-50">
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
                 <div class="text-2xl font-bold gradient-text">&lt;/LabRoute&gt;</div>
                 <div class="hidden md:flex space-x-8">
-                    <a href="#home" class="nav-link hover:text-blue-400 transition-colors">Inicio</a>
+                    <a href="index.html" class="nav-link hover:text-blue-400 transition-colors">Inicio</a>
                     <a href="#about" class="nav-link hover:text-blue-400 transition-colors">Sobre Mí</a>
                     <a href="#services" class="nav-link hover:text-blue-400 transition-colors">Series</a>
                     <a href="#content" class="nav-link hover:text-blue-400 transition-colors">Recursos</a>
-		    <a href="articulos.html" class="nav-link hover:text-blue-400 transition-colors">Artículos</a>
+                    <a href="articulos.html" class="nav-link text-blue-400 font-semibold">Artículos</a>
                     <a href="#contact" class="nav-link hover:text-blue-400 transition-colors">Contacto</a>
                 </div>
                 <button class="md:hidden text-white">
@@ -110,274 +248,401 @@
         </div>
     </nav>
 
-  <main class="flex-1">
-    <!-- Hero -->
-    <section class="container mx-auto px-6 pt-6 pb-4">
-      <div class="text-center">
-        <div class="inline-flex items-center px-3 py-1 rounded-full pill text-sky-300 text-sm mb-5">
-          🧭 Centro de Conocimiento
-        </div>
-        <h1 class="text-4xl md:text-5xl font-extrabold">
-          Artículos <span class="text-sky-300">Técnicos</span>
-        </h1>
-        <p class="subtitle max-w-3xl mx-auto mt-4">
-          Análisis profundos, guías paso a paso y conocimientos de ciberseguridad. Contenido estructurado para elevar tu expertise.
-        </p>
-      </div>
+    <main class="flex-1 content-section">
+        <!-- Hero Section -->
+        <section class="min-h-screen flex items-center justify-center relative pt-20" id="articles-list-section">
+            <div class="container mx-auto px-6 z-10">
+                <!-- Hero Content -->
+                <div class="text-center max-w-4xl mx-auto mb-16">
+                    <div class="inline-block px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm mb-6">
+                        🧭 Centro de Conocimiento
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                        Artículos
+                        <span class="gradient-text">Técnicos</span>
+                    </h1>
+                    
+                    <p class="text-xl text-slate-400 mb-8 max-w-2xl mx-auto leading-relaxed">
+                        Análisis profundos, guías paso a paso y conocimientos de ciberseguridad. Contenido estructurado para elevar tu expertise.
+                    </p>
 
-      <!-- Buscador -->
-      <div class="max-w-3xl mx-auto mt-8">
-        <div class="relative">
-          <input class="search-bar w-full pill px-5 py-3 rounded-xl placeholder-slate-400 text-slate-200"
-                 type="search" placeholder="Buscar artículos, técnicas, herramientas…" />
-          <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500">⌘K</span>
-        </div>
-      </div>
+                    <!-- Buscador -->
+                    <div class="max-w-3xl mx-auto mb-8">
+                        <div class="relative">
+                            <input class="search-bar w-full px-5 py-4 rounded-xl placeholder-slate-400 text-slate-200 text-lg"
+                                   type="search" placeholder="Buscar artículos, técnicas, herramientas…" />
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500">⌘K</span>
+                        </div>
+                    </div>
 
-      <!-- Filtros -->
-      <div class="flex flex-wrap gap-2 justify-center mt-6">
-        <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Todos">Todos</button>
-        <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Penetration Testing">Penetration Testing</button>
-        <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Network Security">Network Security</button>
-        <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Threat Hunting">Threat Hunting</button>
-        <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Automation">Automation</button>
-        <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="OSINT">OSINT</button>
-        <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Malware Analysis">Malware Analysis</button>
-      </div>
-    </section>
+                    <!-- Filtros -->
+                    <div class="flex flex-wrap gap-3 justify-center mb-12">
+                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="Todos">Todos</button>
+                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="Penetration Testing">Penetration Testing</button>
+                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="Network Security">Network Security</button>
+                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="Threat Hunting">Threat Hunting</button>
+                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="Automation">Automation</button>
+                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="OSINT">OSINT</button>
+                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="Malware Analysis">Malware Analysis</button>
+                    </div>
+                </div>
 
-    <!-- LISTADO -->
-    <section id="articles-list-section" class="container mx-auto px-6 mt-6">
-      <div id="articles-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- tarjetas dinámicas -->
-      </div>
-    </section>
-
-    <!-- DETALLE -->
-    <section id="article-detail" class="hidden container mx-auto px-6 mt-12">
-      <a id="back-to-articles" href="#" class="inline-flex items-center text-sky-400 hover:text-sky-300 mb-6">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-        </svg> Volver a artículos
-      </a>
-
-      <article class="article-card p-8">
-        <div class="flex flex-wrap items-center gap-2 article-meta mb-4"></div>
-        <h1 class="text-3xl md:text-4xl font-extrabold mb-4">Título</h1>
-        <div class="article-content prose prose-invert max-w-none"></div>
-      </article>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="mt-16">
-    <div class="container mx-auto px-6 py-10 text-sm text-slate-400 border-t border-slate-800">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-        <div>© <span id="y"></span> LabRoute. Todos los derechos reservados.</div>
-        <div class="flex gap-4">
-          <a href="/privacidad" class="hover:text-slate-200">Privacidad</a>
-          <a href="/terminos" class="hover:text-slate-200">Términos</a>
-        </div>
-      </div>
-    </div>
-    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
-  </footer>
-
-  <!-- Librerías para parsear Front Matter y Markdown -->
-  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-  <!-- Parser de front matter (YAML al inicio) -->
-  <script>
-    function parseFrontMatter(text){
-      if (text.slice(0,3)!=='---') return {data:{},content:text};
-      const end = text.indexOf('\n---',3);
-      if (end===-1) return {data:{},content:text};
-      const yaml = text.slice(3,end);
-      const body = text.slice(end+4);
-      let data={};
-      try{ data = jsyaml.load(yaml)||{} }catch{ data={} }
-      return {data, content: body.trim()};
-    }
-  </script>
-
-  <!-- Lógica: listar, filtrar y detalle desde GitHub + resaltado de código -->
-  <script>
-    /* === Marked + Highlight.js === */
-    marked.setOptions({
-      gfm:true,
-      breaks:false,
-      highlight:(code,lang)=>{
-        try{ return lang ? hljs.highlight(code,{language:lang}).value
-                         : hljs.highlightAuto(code).value; }
-        catch{ return hljs.highlightAuto(code).value; }
-      }
-    });
-
-    // === CONFIG ===
-    const GH_USER   = "labroute";
-    const GH_REPO   = "labroute.github.io";
-    const GH_BRANCH = "main";
-    const CONTENT_PATH = "articulos/contenido";
-
-    // Hooks UI
-    const gridEl        = document.getElementById("articles-grid");
-    const listSection   = document.getElementById("articles-list-section");
-    const detailSection = document.getElementById("article-detail");
-    const searchEl      = document.querySelector(".search-bar");
-
-    let ARTICLES = [];
-
-    // Helpers
-    const diffClass = (d)=>
-      d==="Avanzado" ? "difficulty-advanced" :
-      d==="Intermedio" ? "difficulty-intermediate" : "difficulty-beginner";
-
-    function cardTemplate(a){
-      return `
-        <div class="article-card p-6">
-          <div class="mb-3">
-            <span class="category-badge">${a.category||"General"}</span>
-            <span class="difficulty-badge ${diffClass(a.difficulty||"Intermedio")}">${a.difficulty||"Intermedio"}</span>
-          </div>
-          <h3 class="text-xl font-bold mb-3">${a.title}</h3>
-          <p class="text-slate-400 mb-4 text-sm leading-relaxed">${a.excerpt||""}</p>
-          <div class="flex items-center justify-between text-xs text-slate-500 mb-4">
-            <div class="flex items-center">
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              ${a.reading_time ? `${a.reading_time} min lectura` : "—"}
+                <!-- Grid de Artículos -->
+                <div id="articles-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                    <!-- Tarjetas dinámicas -->
+                </div>
             </div>
-            <div class="flex items-center">
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-              </svg>
-              ${a.views||"—"} vistas
+        </section>
+
+        <!-- Detalle del Artículo -->
+        <section id="article-detail" class="hidden min-h-screen pt-20">
+            <div class="container mx-auto px-6 z-10">
+                <a id="back-to-articles" href="#" class="inline-flex items-center text-blue-400 hover:text-blue-300 mb-8 hover:scale-105 transition-all">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg> 
+                    Volver a artículos
+                </a>
+
+                <article class="bg-slate-800/60 rounded-2xl p-8 border border-slate-700 backdrop-blur-sm">
+                    <div class="flex flex-wrap items-center gap-2 article-meta mb-6"></div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-8 gradient-text">Título</h1>
+                    <div class="article-content prose prose-invert max-w-none"></div>
+                </article>
             </div>
-          </div>
-          <div class="text-xs text-slate-500 mb-4">
-            Publicado: ${a.date ? new Date(a.date).toLocaleDateString("es-ES",{day:"2-digit",month:"long",year:"numeric"}) : "—"}
-          </div>
-          <button class="block w-full text-center bg-slate-700 text-white py-2 rounded-lg hover:bg-slate-600 transition-colors"
-                  data-slug="${a.slug}">
-            Leer Artículo
-          </button>
-        </div>`;
-    }
+        </section>
+    </main>
 
-    function renderCards(list){
-      if(!list.length){ gridEl.innerHTML = `<div class="text-slate-400">No hay artículos publicados aún.</div>`; return; }
-      gridEl.innerHTML = list.map(cardTemplate).join("");
-      gridEl.querySelectorAll("button[data-slug]").forEach(btn=>{
-        btn.addEventListener("click",()=>openDetail(btn.dataset.slug));
-      });
-    }
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-12 content-section mt-16">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="text-2xl font-bold gradient-text mb-4">&lt;/LabRoute&gt;</div>
+                    <p class="text-slate-400 mb-4 max-w-md">
+                        Protegiendo el futuro digital a través de ciberseguridad avanzada, 
+                        threat hunting proactivo y educación técnica de calidad.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-slate-400 hover:text-blue-400 transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-slate-400 hover:text-blue-400 transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-slate-400 hover:text-blue-400 transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
 
-    function normalizeCover(p){
-      if(!p) return null;
-      if(/^https?:\/\//i.test(p)){ try{ p = p.replace(/^https?:\/\/[^/]+/,''); }catch{} }
-      p = String(p).trim().replace(/^['"]|['"]$/g,'');
-      return p.startsWith('/') ? p : `/${p}`;
-    }
+                <div>
+                    <h4 class="font-semibold mb-4">Series</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Ciber-tip Diario</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">HTB Walkthroughs</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Directos & AMA</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Cheatsheets</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Automatización</a></li>
+                    </ul>
+                </div>
 
-    async function openDetail(slug){
-      const art = ARTICLES.find(x=>x.slug===slug);
-      if(!art) return;
+                <div>
+                    <h4 class="font-semibold mb-4">Recursos</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Tutoriales</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Herramientas</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Documentación</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Newsletter</a></li>
+                    </ul>
+                </div>
+            </div>
 
-      const metaWrap = detailSection.querySelector(".article-meta");
-      metaWrap.innerHTML = `
-        <span class="category-badge">${art.category||"General"}</span>
-        <span class="difficulty-badge ${diffClass(art.difficulty||"Intermedio")}">${art.difficulty||"Intermedio"}</span>
-        <span class="ml-2 text-sm text-slate-400">${art.reading_time ? `${art.reading_time} min lectura` : ""}</span>
-      `;
-      detailSection.querySelector("h1").textContent = art.title;
+            <div class="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <div class="text-slate-400 text-sm">
+                    © <span id="current-year"></span> LabRoute. Todos los derechos reservados.
+                </div>
+                <div class="flex space-x-6 text-slate-400 text-sm mt-4 md:mt-0">
+                    <a href="#" class="hover:text-blue-400 transition-colors">Política de Privacidad</a>
+                    <a href="#" class="hover:text-blue-400 transition-colors">Términos de Uso</a>
+                    <a href="#" class="hover:text-blue-400 transition-colors">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-      const contentEl = detailSection.querySelector(".article-content");
-      const cover = art.cover ? `<img src="${art.cover}" alt="${art.title}" class="w-full h-64 object-cover rounded-xl mb-8">` : "";
-      contentEl.innerHTML = cover + marked.parse(art.body||"");
-      contentEl.querySelectorAll('pre code').forEach(el=>hljs.highlightElement(el));
+    <!-- Librerías para parsear Front Matter y Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-      listSection.classList.add("hidden");
-      detailSection.classList.remove("hidden");
-      window.scrollTo({top:0,behavior:"smooth"});
-    }
+    <script>
+        // Set current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    document.getElementById("back-to-articles").addEventListener("click",(e)=>{
-      e.preventDefault();
-      detailSection.classList.add("hidden");
-      listSection.classList.remove("hidden");
-      window.scrollTo({top:0,behavior:"smooth"});
-    });
+        // Parser de front matter (YAML al inicio)
+        function parseFrontMatter(text) {
+            if (text.slice(0,3) !== '---') return { data:{}, content:text };
+            const end = text.indexOf('\n---', 3);
+            if (end === -1) return { data:{}, content:text };
+            const yaml = text.slice(3, end);
+            const body = text.slice(end + 4);
+            let data = {};
+            try { data = jsyaml.load(yaml) || {}; } catch(e) { data = {}; }
+            return { data, content: body.trim() };
+        }
 
-    // Filtros
-    document.querySelectorAll(".filter-button").forEach(btn=>{
-      btn.addEventListener("click",()=>{
-        document.querySelectorAll(".filter-button").forEach(b=>b.classList.remove("ring-2","ring-sky-500"));
-        btn.classList.add("ring-2","ring-sky-500");
-        const cat = btn.dataset.filter;
-        const list = (cat==="Todos") ? ARTICLES
-          : ARTICLES.filter(a=>(a.category||"").toLowerCase()===cat.toLowerCase());
-        renderCards(list);
-      });
-    });
-
-    // Búsqueda
-    if(searchEl){
-      searchEl.addEventListener("input",(e)=>{
-        const q = e.target.value.toLowerCase();
-        const list = ARTICLES.filter(a =>
-          (a.title||"").toLowerCase().includes(q) ||
-          (a.excerpt||"").toLowerCase().includes(q)
-        );
-        renderCards(list);
-      });
-    }
-
-    // Fetch helpers
-    async function fetchJSON(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }
-    async function fetchText(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); }
-
-    // Carga desde GitHub
-    async function loadArticles(){
-      const listURL = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${CONTENT_PATH}?ref=${GH_BRANCH}`;
-      const files = await fetchJSON(listURL);
-      const mdFiles = files.filter(f=>f.name.toLowerCase().endsWith(".md"));
-
-      const items = [];
-      for(const f of mdFiles){
-        const rawURL = `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/${GH_BRANCH}/${CONTENT_PATH}/${encodeURIComponent(f.name)}`;
-        const text   = await fetchText(rawURL);
-        const parsed = parseFrontMatter(text);
-        const data   = parsed.data||{};
-
-        items.push({
-          slug: f.name.replace(/\.md$/i,""),
-          title: data.title||f.name,
-          date: data.date||null,
-          category: data.category||null,
-          difficulty: data.difficulty||null,
-          reading_time: data.reading_time||null,
-          cover: normalizeCover(data.cover||null),
-          excerpt: data.excerpt || (parsed.content.trim().split("\n").slice(0,3).join(" ").substring(0,180)+"…"),
-          views: data.views||null,
-          body: parsed.content
+        // Configurar Marked con Highlight.js
+        marked.setOptions({
+            gfm: true,
+            breaks: false,
+            highlight: (code, lang) => {
+                try {
+                    return lang ? hljs.highlight(code, { language: lang }).value
+                              : hljs.highlightAuto(code).value;
+                } catch { return hljs.highlightAuto(code).value; }
+            }
         });
-      }
 
-      items.sort((a,b)=> new Date(b.date||0) - new Date(a.date||0));
-      ARTICLES = items;
-      renderCards(ARTICLES);
-    }
+        // CONFIG
+        const GH_USER   = "labroute";
+        const GH_REPO   = "labroute.github.io";
+        const GH_BRANCH = "main";
+        const CONTENT_PATH = "articulos/contenido";
 
-    loadArticles().catch(err=>{
-      console.error("Error_cargando_articulos:", err);
-      gridEl.innerHTML = `<div class="text-slate-400">No se pudieron cargar los artículos.</div>`;
-    });
-  </script>
+        // Hooks UI
+        const gridEl        = document.getElementById("articles-grid");
+        const listSection   = document.getElementById("articles-list-section");
+        const detailSection = document.getElementById("article-detail");
+        const searchEl      = document.querySelector(".search-bar");
+
+        let ARTICLES = [];
+
+        // Helpers
+        const diffClass = (d) =>
+            d === "Avanzado" ? "difficulty-advanced" :
+            d === "Intermedio" ? "difficulty-intermediate" : "difficulty-beginner";
+
+        function cardTemplate(a) {
+            return `
+                <div class="bg-slate-800/60 rounded-2xl p-6 border border-slate-700 card-hover backdrop-blur-sm">
+                    <div class="mb-4">
+                        <span class="category-badge">${a.category || "General"}</span>
+                        <span class="difficulty-badge ${diffClass(a.difficulty || "Intermedio")}">${a.difficulty || "Intermedio"}</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">${a.title}</h3>
+                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">${a.excerpt || ""}</p>
+                    <div class="flex items-center justify-between text-xs text-slate-500 mb-4">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            ${a.reading_time ? `${a.reading_time} min lectura` : "—"}
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            ${a.views || "—"} vistas
+                        </div>
+                    </div>
+                    <div class="text-xs text-slate-500 mb-4">
+                        Publicado: ${a.date ? new Date(a.date).toLocaleDateString("es-ES",{day:"2-digit",month:"long",year:"numeric"}) : "—"}
+                    </div>
+                    <button class="block w-full text-center bg-gradient-to-r from-blue-500 to-orange-500 text-white py-3 rounded-lg hover:scale-105 transition-all font-semibold"
+                            data-slug="${a.slug}">
+                        Leer Artículo
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderCards(list) {
+            if (!list.length) {
+                gridEl.innerHTML = `
+                    <div class="col-span-full text-center text-slate-400 py-16">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold mb-2">No hay artículos disponibles</h3>
+                        <p>No se encontraron artículos que coincidan con tu búsqueda.</p>
+                    </div>
+                `;
+                return;
+            }
+            gridEl.innerHTML = list.map(cardTemplate).join("");
+            gridEl.querySelectorAll("button[data-slug]").forEach(btn => {
+                btn.addEventListener("click", () => openDetail(btn.dataset.slug));
+            });
+        }
+
+        function normalizeCover(p) {
+            if (!p) return null;
+            // Si es absoluta, quita el dominio para convertirla en ruta del sitio
+            if (/^https?:\/\//i.test(p)) {
+                try { p = p.replace(/^https?:\/\/[^/]+/, ''); } catch(_) {}
+            }
+            p = String(p).trim().replace(/^['"]|['"]$/g, '');
+            return p.startsWith('/') ? p : `/${p}`;
+        }
+
+        async function openDetail(slug) {
+            const art = ARTICLES.find(x => x.slug === slug);
+            if (!art) return;
+
+            const metaWrap = detailSection.querySelector(".article-meta");
+            metaWrap.innerHTML = `
+                <span class="category-badge">${art.category || "General"}</span>
+                <span class="difficulty-badge ${diffClass(art.difficulty || "Intermedio")}">${art.difficulty || "Intermedio"}</span>
+                <span class="ml-2 text-sm text-slate-400">${art.reading_time ? `${art.reading_time} min lectura` : ""}</span>
+                <span class="ml-2 text-sm text-slate-500">•</span>
+                <span class="ml-2 text-sm text-slate-400">${art.date ? new Date(art.date).toLocaleDateString("es-ES",{day:"2-digit",month:"long",year:"numeric"}) : ""}</span>
+            `;
+            detailSection.querySelector("h1").textContent = art.title;
+
+            const contentEl = detailSection.querySelector(".article-content");
+            const cover = art.cover ? `<img src="${art.cover}" alt="${art.title}" class="w-full h-64 object-cover rounded-xl mb-8 border border-slate-700">` : "";
+            contentEl.innerHTML = cover + marked.parse(art.body || "");
+
+            // Aplicar highlight a todos los bloques de código del artículo
+            contentEl.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+
+            listSection.classList.add("hidden");
+            detailSection.classList.remove("hidden");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        document.getElementById("back-to-articles").addEventListener("click", (e) => {
+            e.preventDefault();
+            detailSection.classList.add("hidden");
+            listSection.classList.remove("hidden");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        // Filtros
+        document.querySelectorAll(".filter-button").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".filter-button").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                const cat = btn.dataset.filter;
+                const list = (cat === "Todos") ? ARTICLES
+                    : ARTICLES.filter(a => (a.category || "").toLowerCase() === cat.toLowerCase());
+                renderCards(list);
+            });
+        });
+
+        // Marcar "Todos" como activo por defecto
+        document.querySelector('.filter-button[data-filter="Todos"]').classList.add("active");
+
+        // Búsqueda
+        if (searchEl) {
+            searchEl.addEventListener("input", (e) => {
+                const q = e.target.value.toLowerCase();
+                const activeFilter = document.querySelector(".filter-button.active").dataset.filter;
+                let list = ARTICLES;
+                
+                // Aplicar filtro de categoría si no es "Todos"
+                if (activeFilter !== "Todos") {
+                    list = list.filter(a => (a.category || "").toLowerCase() === activeFilter.toLowerCase());
+                }
+                
+                // Aplicar filtro de búsqueda
+                if (q) {
+                    list = list.filter(a =>
+                        (a.title || "").toLowerCase().includes(q) ||
+                        (a.excerpt || "").toLowerCase().includes(q) ||
+                        (a.category || "").toLowerCase().includes(q)
+                    );
+                }
+                
+                renderCards(list);
+            });
+        }
+
+        // Fetch helpers
+        async function fetchJSON(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }
+        async function fetchText(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); }
+
+        // Carga desde GitHub
+        async function loadArticles() {
+            try {
+                const listURL = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${CONTENT_PATH}?ref=${GH_BRANCH}`;
+                const files = await fetchJSON(listURL);
+                const mdFiles = files.filter(f => f.name.toLowerCase().endsWith(".md"));
+
+                const items = [];
+                for (const f of mdFiles) {
+                    const rawURL = `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/${GH_BRANCH}/${CONTENT_PATH}/${encodeURIComponent(f.name)}`;
+                    const text = await fetchText(rawURL);
+                    const parsed = parseFrontMatter(text);
+                    const data = parsed.data || {};
+
+                    items.push({
+                        slug: f.name.replace(/\.md$/i,""),
+                        title: data.title || f.name,
+                        date: data.date || null,
+                        category: data.category || null,
+                        difficulty: data.difficulty || null,
+                        reading_time: data.reading_time || null,
+                        cover: normalizeCover(data.cover || null),
+                        excerpt: data.excerpt || (parsed.content.trim().split("\n").slice(0,3).join(" ").substring(0,180) + "…"),
+                        views: data.views || null,
+                        body: parsed.content
+                    });
+                }
+
+                // Orden por fecha desc
+                items.sort((a,b)=> new Date(b.date||0) - new Date(a.date||0));
+
+                ARTICLES = items;
+                renderCards(ARTICLES);
+                
+                // Mostrar loading message si no hay artículos
+                if (items.length === 0) {
+                    gridEl.innerHTML = `
+                        <div class="col-span-full text-center text-slate-400 py-16">
+                            <svg class="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                            <h3 class="text-xl font-semibold mb-2">Preparando contenido</h3>
+                            <p>Los artículos estarán disponibles pronto. ¡Mantente atento!</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error("Error cargando artículos:", error);
+                gridEl.innerHTML = `
+                    <div class="col-span-full text-center text-slate-400 py-16">
+                        <svg class="w-16 h-16 mx-auto mb-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.962-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold mb-2 text-red-400">Error al cargar artículos</h3>
+                        <p>No se pudieron cargar los artículos. Por favor, intenta de nuevo más tarde.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Atajo de teclado para búsqueda
+        document.addEventListener('keydown', (e) => {
+            if (e.metaKey && e.key === 'k') {
+                e.preventDefault();
+                searchEl.focus();
+            }
+        });
+
+        // Cargar artículos al iniciar
+        loadArticles();
+    </script>
 </body>
 </html>
-
