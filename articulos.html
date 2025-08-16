@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <!-- Highlight.js (resaltado de código) -->
+    <!-- Highlight.js -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
     <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
     
@@ -24,6 +24,7 @@
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
+            background-color: var(--dark-bg);
         }
 
         .font-code {
@@ -46,67 +47,67 @@
             box-shadow: 0 20px 40px rgba(14, 165, 233, 0.1);
         }
 
-        .blob {
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(249, 115, 22, 0.1));
-            animation: blob 7s ease-in-out infinite;
+        /* Estilos para artículos */
+        .article-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s ease;
         }
 
-        .blob-2 {
-            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(30, 64, 175, 0.1));
-            animation: blob 8s ease-in-out infinite reverse;
+        .article-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(148, 163, 184, 0.3);
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.1);
         }
 
-        @keyframes blob {
-            0%, 100% {
-                transform: translate(0px, 0px) scale(1);
-            }
-            33% {
-                transform: translate(30px, -50px) scale(1.1);
-            }
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
-            }
+        .category-badge {
+            background: rgba(14, 165, 233, 0.1);
+            color: #0ea5e9;
+            border: 1px solid rgba(14, 165, 233, 0.2);
         }
 
-        .particle {
-            width: 4px;
-            height: 4px;
-            background: var(--primary-blue);
-            border-radius: 50%;
-            position: absolute;
-            animation: float 3s ease-in-out infinite;
+        .difficulty-badge {
+            background: rgba(249, 115, 22, 0.1);
+            color: #f97316;
+            border: 1px solid rgba(249, 115, 22, 0.2);
         }
 
-        .particle:nth-child(1) { top: 20%; left: 20%; animation-delay: 0s; }
-        .particle:nth-child(2) { top: 80%; left: 80%; animation-delay: 1s; }
-        .particle:nth-child(3) { top: 40%; left: 80%; animation-delay: 2s; }
-        .particle:nth-child(4) { top: 80%; left: 20%; animation-delay: 1.5s; }
+        .difficulty-beginner { color: #10b981 !important; background: rgba(16, 185, 129, 0.1) !important; }
+        .difficulty-intermediate { color: #f59e0b !important; background: rgba(245, 158, 11, 0.1) !important; }
+        .difficulty-advanced { color: #ef4444 !important; background: rgba(239, 68, 68, 0.1) !important; }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
-            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        /* Estilos para código */
+        .prose :where(code) {
+            background: #1e293b;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            font-family: 'Fira Code', monospace;
         }
 
-        .nav-link {
-            position: relative;
-            overflow: hidden;
+        .prose pre {
+            background: #1e293b;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow: auto;
         }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary-blue), var(--accent-orange));
-            transition: left 0.3s ease;
+        .prose pre code {
+            background: transparent;
+            padding: 0;
+            border: 0;
         }
 
-        .nav-link:hover::after {
+        /* Efecto de red global */
+        #network-canvas {
+            position: fixed;
+            top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
         }
 
         .content-section {
@@ -115,116 +116,11 @@
             background-color: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(2px);
         }
-
-        /* Estilos específicos para artículos */
-        .category-badge, .difficulty-badge {
-            display: inline-block;
-            font-size: 0.70rem;
-            font-weight: 700;
-            letter-spacing: 0.35px;
-            padding: 0.28rem 0.6rem;
-            border-radius: 0.55rem;
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(100, 116, 139, 0.35);
-        }
-
-        .category-badge { 
-            color: var(--primary-blue);
-            background: rgba(14, 165, 233, 0.1);
-            border-color: rgba(14, 165, 233, 0.2);
-        }
-        
-        .difficulty-badge { 
-            color: var(--accent-orange);
-            background: rgba(249, 115, 22, 0.1);
-            border-color: rgba(249, 115, 22, 0.2);
-        }
-
-        .difficulty-beginner { 
-            color: #34d399 !important; 
-            background: rgba(52, 211, 153, 0.1) !important;
-            border-color: rgba(52, 211, 153, 0.2) !important;
-        }
-        
-        .difficulty-intermediate { 
-            color: #f59e0b !important;
-            background: rgba(245, 158, 11, 0.1) !important;
-            border-color: rgba(245, 158, 11, 0.2) !important;
-        }
-        
-        .difficulty-advanced { 
-            color: #f87171 !important;
-            background: rgba(248, 113, 113, 0.1) !important;
-            border-color: rgba(248, 113, 113, 0.2) !important;
-        }
-
-        .search-bar {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(100, 116, 139, 0.3);
-            backdrop-filter: blur(8px);
-        }
-
-        .search-bar:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
-        }
-
-        .filter-button {
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid rgba(100, 116, 139, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .filter-button:hover {
-            background: rgba(30, 41, 59, 0.8);
-            border-color: var(--primary-blue);
-        }
-
-        .filter-button.active {
-            background: rgba(14, 165, 233, 0.2);
-            border-color: var(--primary-blue);
-            color: var(--primary-blue);
-        }
-
-        /* Código inline y bloques */
-        .prose :where(code) {
-            background: rgba(15, 23, 42, 0.8);
-            padding: 0.12rem 0.28rem;
-            border-radius: 0.35rem;
-            border: 1px solid rgba(148, 163, 184, 0.15);
-            color: var(--primary-blue);
-        }
-
-        .prose pre {
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(148, 163, 184, 0.18);
-            border-radius: 0.75rem;
-            padding: 1rem;
-            overflow: auto;
-            margin: 1rem 0 1.25rem;
-        }
-
-        .prose pre code {
-            background: transparent;
-            padding: 0;
-            border: 0;
-            color: inherit;
-        }
-
-        .hidden { display: none; }
     </style>
 </head>
-<body class="bg-slate-900 text-white overflow-x-hidden">
-    <!-- Background Elements -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div class="blob absolute w-72 h-72 -top-32 -left-32"></div>
-        <div class="blob-2 absolute w-96 h-96 -bottom-48 -right-48"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
+<body class="text-white overflow-x-hidden">
+    <!-- Canvas para el efecto de red global -->
+    <canvas id="network-canvas"></canvas>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full bg-slate-900/80 backdrop-blur-lg border-b border-slate-800 z-50">
@@ -233,11 +129,11 @@
                 <div class="text-2xl font-bold gradient-text">&lt;/LabRoute&gt;</div>
                 <div class="hidden md:flex space-x-8">
                     <a href="index.html" class="nav-link hover:text-blue-400 transition-colors">Inicio</a>
-                    <a href="#about" class="nav-link hover:text-blue-400 transition-colors">Sobre Mí</a>
-                    <a href="#services" class="nav-link hover:text-blue-400 transition-colors">Series</a>
-                    <a href="#content" class="nav-link hover:text-blue-400 transition-colors">Recursos</a>
-                    <a href="articulos.html" class="nav-link text-blue-400 font-semibold">Artículos</a>
-                    <a href="#contact" class="nav-link hover:text-blue-400 transition-colors">Contacto</a>
+                    <a href="index.html#about" class="nav-link hover:text-blue-400 transition-colors">Sobre Mí</a>
+                    <a href="index.html#services" class="nav-link hover:text-blue-400 transition-colors">Series</a>
+                    <a href="index.html#content" class="nav-link hover:text-blue-400 transition-colors">Recursos</a>
+                    <a href="articulos.html" class="nav-link text-blue-400 transition-colors">Artículos</a>
+                    <a href="index.html#contact" class="nav-link hover:text-blue-400 transition-colors">Contacto</a>
                 </div>
                 <button class="md:hidden text-white">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -248,74 +144,68 @@
         </div>
     </nav>
 
-    <main class="flex-1 content-section">
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 content-section">
         <!-- Hero Section -->
-        <section class="min-h-screen flex items-center justify-center relative pt-20" id="articles-list-section">
-            <div class="container mx-auto px-6 z-10">
-                <!-- Hero Content -->
-                <div class="text-center max-w-4xl mx-auto mb-16">
-                    <div class="inline-block px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm mb-6">
-                        🧭 Centro de Conocimiento
-                    </div>
-                    
-                    <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                        Artículos
-                        <span class="gradient-text">Técnicos</span>
-                    </h1>
-                    
-                    <p class="text-xl text-slate-400 mb-8 max-w-2xl mx-auto leading-relaxed">
-                        Análisis profundos, guías paso a paso y conocimientos de ciberseguridad. Contenido estructurado para elevar tu expertise.
-                    </p>
+        <section class="container mx-auto px-6 py-12">
+            <div class="text-center max-w-4xl mx-auto">
+                <div class="inline-block px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm mb-6">
+                    🧠 Centro de Conocimiento
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    Artículos <span class="gradient-text">Técnicos</span>
+                </h1>
+                <p class="text-xl text-slate-400 mb-8 max-w-2xl mx-auto leading-relaxed">
+                    Análisis profundos, guías paso a paso y conocimientos de ciberseguridad. Contenido estructurado para elevar tu expertise.
+                </p>
 
-                    <!-- Buscador -->
-                    <div class="max-w-3xl mx-auto mb-8">
-                        <div class="relative">
-                            <input class="search-bar w-full px-5 py-4 rounded-xl placeholder-slate-400 text-slate-200 text-lg"
-                                   type="search" placeholder="Buscar artículos, técnicas, herramientas…" />
-                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500">⌘K</span>
-                        </div>
-                    </div>
-
-                    <!-- Filtros -->
-                    <div class="flex flex-wrap gap-3 justify-center mb-12">
-                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="Todos">Todos</button>
-                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="Penetration Testing">Penetration Testing</button>
-                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="Network Security">Network Security</button>
-                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="Threat Hunting">Threat Hunting</button>
-                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="Automation">Automation</button>
-                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="OSINT">OSINT</button>
-                        <button class="filter-button text-sm px-4 py-2 rounded-xl hover:scale-105 transition-all" data-filter="Malware Analysis">Malware Analysis</button>
+                <!-- Buscador -->
+                <div class="max-w-3xl mx-auto mt-8">
+                    <div class="relative">
+                        <input class="search-bar w-full bg-slate-800 border border-slate-700 rounded-lg px-5 py-3 placeholder-slate-500 text-white focus:border-blue-500 focus:outline-none"
+                               type="search" placeholder="Buscar artículos, técnicas, herramientas..." />
+                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500">⌘K</span>
                     </div>
                 </div>
 
-                <!-- Grid de Artículos -->
-                <div id="articles-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                    <!-- Tarjetas dinámicas -->
+                <!-- Filtros -->
+                <div class="flex flex-wrap gap-3 justify-center mt-8">
+                    <button class="filter-button bg-slate-800 border border-slate-700 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors" data-filter="Todos">Todos</button>
+                    <button class="filter-button bg-slate-800 border border-slate-700 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors" data-filter="Penetration Testing">Penetration Testing</button>
+                    <button class="filter-button bg-slate-800 border border-slate-700 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors" data-filter="Network Security">Network Security</button>
+                    <button class="filter-button bg-slate-800 border border-slate-700 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors" data-filter="Threat Hunting">Threat Hunting</button>
+                    <button class="filter-button bg-slate-800 border border-slate-700 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors" data-filter="Automation">Automation</button>
+                    <button class="filter-button bg-slate-800 border border-slate-700 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors" data-filter="OSINT">OSINT</button>
+                    <button class="filter-button bg-slate-800 border border-slate-700 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors" data-filter="Malware Analysis">Malware Analysis</button>
                 </div>
             </div>
         </section>
 
-        <!-- Detalle del Artículo -->
-        <section id="article-detail" class="hidden min-h-screen pt-20">
-            <div class="container mx-auto px-6 z-10">
-                <a id="back-to-articles" href="#" class="inline-flex items-center text-blue-400 hover:text-blue-300 mb-8 hover:scale-105 transition-all">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg> 
-                    Volver a artículos
-                </a>
-
-                <article class="bg-slate-800/60 rounded-2xl p-8 border border-slate-700 backdrop-blur-sm">
-                    <div class="flex flex-wrap items-center gap-2 article-meta mb-6"></div>
-                    <h1 class="text-4xl md:text-5xl font-bold mb-8 gradient-text">Título</h1>
-                    <div class="article-content prose prose-invert max-w-none"></div>
-                </article>
+        <!-- LISTADO -->
+        <section id="articles-list-section" class="container mx-auto px-6 mt-12">
+            <div id="articles-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- tarjetas dinámicas -->
             </div>
+        </section>
+
+        <!-- DETALLE -->
+        <section id="article-detail" class="hidden container mx-auto px-6 mt-12">
+            <a id="back-to-articles" href="#" class="inline-flex items-center text-blue-400 hover:text-blue-300 mb-6 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg> Volver a artículos
+            </a>
+
+            <article class="article-card p-8 border border-slate-700 rounded-2xl">
+                <div class="flex flex-wrap items-center gap-2 article-meta mb-6"></div>
+                <h1 class="text-3xl md:text-4xl font-bold mb-6">Título</h1>
+                <div class="article-content prose prose-invert max-w-none text-slate-300"></div>
+            </article>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-800 py-12 content-section mt-16">
+    <footer class="border-t border-slate-800 py-12 content-section">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-4 gap-8">
                 <div class="md:col-span-2">
@@ -368,7 +258,7 @@
 
             <div class="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <div class="text-slate-400 text-sm">
-                    © <span id="current-year"></span> LabRoute. Todos los derechos reservados.
+                    © 2025 LabRoute. Todos los derechos reservados.
                 </div>
                 <div class="flex space-x-6 text-slate-400 text-sm mt-4 md:mt-0">
                     <a href="#" class="hover:text-blue-400 transition-colors">Política de Privacidad</a>
@@ -383,11 +273,8 @@
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
+    <!-- Parser de front matter (YAML al inicio) -->
     <script>
-        // Set current year
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-
-        // Parser de front matter (YAML al inicio)
         function parseFrontMatter(text) {
             if (text.slice(0,3) !== '---') return { data:{}, content:text };
             const end = text.indexOf('\n---', 3);
@@ -398,24 +285,27 @@
             try { data = jsyaml.load(yaml) || {}; } catch(e) { data = {}; }
             return { data, content: body.trim() };
         }
+    </script>
 
-        // Configurar Marked con Highlight.js
+    <!-- Lógica: listar, filtrar y detalle desde GitHub + resaltado de código -->
+    <script>
+        /* === Configurar Marked con Highlight.js === */
         marked.setOptions({
             gfm: true,
             breaks: false,
             highlight: (code, lang) => {
                 try {
                     return lang ? hljs.highlight(code, { language: lang }).value
-                              : hljs.highlightAuto(code).value;
+                                : hljs.highlightAuto(code).value;
                 } catch { return hljs.highlightAuto(code).value; }
             }
         });
 
-        // CONFIG
+        // === CONFIG ===
         const GH_USER   = "labroute";
         const GH_REPO   = "labroute.github.io";
         const GH_BRANCH = "main";
-        const CONTENT_PATH = "articulos/contenido";
+        const CONTENT_PATH = "articulos/contenido"; // carpeta de .md que crea el CMS
 
         // Hooks UI
         const gridEl        = document.getElementById("articles-grid");
@@ -432,12 +322,12 @@
 
         function cardTemplate(a) {
             return `
-                <div class="bg-slate-800/60 rounded-2xl p-6 border border-slate-700 card-hover backdrop-blur-sm">
+                <div class="article-card p-6 border border-slate-700 rounded-xl">
                     <div class="mb-4">
-                        <span class="category-badge">${a.category || "General"}</span>
-                        <span class="difficulty-badge ${diffClass(a.difficulty || "Intermedio")}">${a.difficulty || "Intermedio"}</span>
+                        <span class="category-badge text-xs px-3 py-1 rounded-full">${a.category || "General"}</span>
+                        <span class="difficulty-badge ${diffClass(a.difficulty || "Intermedio")} text-xs px-3 py-1 rounded-full ml-2">${a.difficulty || "Intermedio"}</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">${a.title}</h3>
+                    <h3 class="text-xl font-bold mb-3">${a.title}</h3>
                     <p class="text-slate-400 mb-4 text-sm leading-relaxed">${a.excerpt || ""}</p>
                     <div class="flex items-center justify-between text-xs text-slate-500 mb-4">
                         <div class="flex items-center">
@@ -459,7 +349,7 @@
                     <div class="text-xs text-slate-500 mb-4">
                         Publicado: ${a.date ? new Date(a.date).toLocaleDateString("es-ES",{day:"2-digit",month:"long",year:"numeric"}) : "—"}
                     </div>
-                    <button class="block w-full text-center bg-gradient-to-r from-blue-500 to-orange-500 text-white py-3 rounded-lg hover:scale-105 transition-all font-semibold"
+                    <button class="block w-full text-center bg-blue-500/10 text-blue-400 py-2 rounded-lg hover:bg-blue-500/20 transition-colors border border-blue-500/20"
                             data-slug="${a.slug}">
                         Leer Artículo
                     </button>
@@ -469,15 +359,7 @@
 
         function renderCards(list) {
             if (!list.length) {
-                gridEl.innerHTML = `
-                    <div class="col-span-full text-center text-slate-400 py-16">
-                        <svg class="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                        <h3 class="text-xl font-semibold mb-2">No hay artículos disponibles</h3>
-                        <p>No se encontraron artículos que coincidan con tu búsqueda.</p>
-                    </div>
-                `;
+                gridEl.innerHTML = `<div class="text-slate-400">No hay artículos publicados aún.</div>`;
                 return;
             }
             gridEl.innerHTML = list.map(cardTemplate).join("");
@@ -502,11 +384,9 @@
 
             const metaWrap = detailSection.querySelector(".article-meta");
             metaWrap.innerHTML = `
-                <span class="category-badge">${art.category || "General"}</span>
-                <span class="difficulty-badge ${diffClass(art.difficulty || "Intermedio")}">${art.difficulty || "Intermedio"}</span>
+                <span class="category-badge text-xs px-3 py-1 rounded-full">${art.category || "General"}</span>
+                <span class="difficulty-badge ${diffClass(art.difficulty || "Intermedio")} text-xs px-3 py-1 rounded-full ml-2">${art.difficulty || "Intermedio"}</span>
                 <span class="ml-2 text-sm text-slate-400">${art.reading_time ? `${art.reading_time} min lectura` : ""}</span>
-                <span class="ml-2 text-sm text-slate-500">•</span>
-                <span class="ml-2 text-sm text-slate-400">${art.date ? new Date(art.date).toLocaleDateString("es-ES",{day:"2-digit",month:"long",year:"numeric"}) : ""}</span>
             `;
             detailSection.querySelector("h1").textContent = art.title;
 
@@ -532,8 +412,8 @@
         // Filtros
         document.querySelectorAll(".filter-button").forEach(btn => {
             btn.addEventListener("click", () => {
-                document.querySelectorAll(".filter-button").forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
+                document.querySelectorAll(".filter-button").forEach(b => b.classList.remove("bg-blue-500/20","text-blue-400","border-blue-500"));
+                btn.classList.add("bg-blue-500/20","text-blue-400","border-blue-500");
                 const cat = btn.dataset.filter;
                 const list = (cat === "Todos") ? ARTICLES
                     : ARTICLES.filter(a => (a.category || "").toLowerCase() === cat.toLowerCase());
@@ -541,30 +421,14 @@
             });
         });
 
-        // Marcar "Todos" como activo por defecto
-        document.querySelector('.filter-button[data-filter="Todos"]').classList.add("active");
-
         // Búsqueda
         if (searchEl) {
             searchEl.addEventListener("input", (e) => {
                 const q = e.target.value.toLowerCase();
-                const activeFilter = document.querySelector(".filter-button.active").dataset.filter;
-                let list = ARTICLES;
-                
-                // Aplicar filtro de categoría si no es "Todos"
-                if (activeFilter !== "Todos") {
-                    list = list.filter(a => (a.category || "").toLowerCase() === activeFilter.toLowerCase());
-                }
-                
-                // Aplicar filtro de búsqueda
-                if (q) {
-                    list = list.filter(a =>
-                        (a.title || "").toLowerCase().includes(q) ||
-                        (a.excerpt || "").toLowerCase().includes(q) ||
-                        (a.category || "").toLowerCase().includes(q)
-                    );
-                }
-                
+                const list = ARTICLES.filter(a =>
+                    (a.title || "").toLowerCase().includes(q) ||
+                    (a.excerpt || "").toLowerCase().includes(q)
+                );
                 renderCards(list);
             });
         }
@@ -575,74 +439,206 @@
 
         // Carga desde GitHub
         async function loadArticles() {
-            try {
-                const listURL = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${CONTENT_PATH}?ref=${GH_BRANCH}`;
-                const files = await fetchJSON(listURL);
-                const mdFiles = files.filter(f => f.name.toLowerCase().endsWith(".md"));
+            const listURL = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${CONTENT_PATH}?ref=${GH_BRANCH}`;
+            const files = await fetchJSON(listURL);
+            const mdFiles = files.filter(f => f.name.toLowerCase().endsWith(".md"));
 
-                const items = [];
-                for (const f of mdFiles) {
-                    const rawURL = `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/${GH_BRANCH}/${CONTENT_PATH}/${encodeURIComponent(f.name)}`;
-                    const text = await fetchText(rawURL);
-                    const parsed = parseFrontMatter(text);
-                    const data = parsed.data || {};
+            const items = [];
+            for (const f of mdFiles) {
+                const rawURL = `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/${GH_BRANCH}/${CONTENT_PATH}/${encodeURIComponent(f.name)}`;
+                const text = await fetchText(rawURL);
+                const parsed = parseFrontMatter(text);
+                const data   = parsed.data || {};
 
-                    items.push({
-                        slug: f.name.replace(/\.md$/i,""),
-                        title: data.title || f.name,
-                        date: data.date || null,
-                        category: data.category || null,
-                        difficulty: data.difficulty || null,
-                        reading_time: data.reading_time || null,
-                        cover: normalizeCover(data.cover || null),
-                        excerpt: data.excerpt || (parsed.content.trim().split("\n").slice(0,3).join(" ").substring(0,180) + "…"),
-                        views: data.views || null,
-                        body: parsed.content
-                    });
-                }
-
-                // Orden por fecha desc
-                items.sort((a,b)=> new Date(b.date||0) - new Date(a.date||0));
-
-                ARTICLES = items;
-                renderCards(ARTICLES);
-                
-                // Mostrar loading message si no hay artículos
-                if (items.length === 0) {
-                    gridEl.innerHTML = `
-                        <div class="col-span-full text-center text-slate-400 py-16">
-                            <svg class="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                            </svg>
-                            <h3 class="text-xl font-semibold mb-2">Preparando contenido</h3>
-                            <p>Los artículos estarán disponibles pronto. ¡Mantente atento!</p>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error("Error cargando artículos:", error);
-                gridEl.innerHTML = `
-                    <div class="col-span-full text-center text-slate-400 py-16">
-                        <svg class="w-16 h-16 mx-auto mb-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.962-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                        </svg>
-                        <h3 class="text-xl font-semibold mb-2 text-red-400">Error al cargar artículos</h3>
-                        <p>No se pudieron cargar los artículos. Por favor, intenta de nuevo más tarde.</p>
-                    </div>
-                `;
+                items.push({
+                    slug: f.name.replace(/\.md$/i,""),
+                    title: data.title || f.name,
+                    date: data.date || null,
+                    category: data.category || null,
+                    difficulty: data.difficulty || null,
+                    reading_time: data.reading_time || null,
+                    cover: normalizeCover(data.cover || null),
+                    excerpt: data.excerpt || (parsed.content.trim().split("\n").slice(0,3).join(" ").substring(0,180) + "…"),
+                    views: data.views || null,
+                    body: parsed.content
+                });
             }
+
+            // Orden por fecha desc
+            items.sort((a,b)=> new Date(b.date||0) - new Date(a.date||0));
+
+            ARTICLES = items;
+            renderCards(ARTICLES);
         }
 
-        // Atajo de teclado para búsqueda
-        document.addEventListener('keydown', (e) => {
-            if (e.metaKey && e.key === 'k') {
-                e.preventDefault();
-                searchEl.focus();
-            }
+        loadArticles().catch(err => {
+            console.error("Error_cargando_articulos:", err);
+            gridEl.innerHTML = `<div class="text-slate-400">No se pudieron cargar los artículos.</div>`;
         });
+    </script>
 
-        // Cargar artículos al iniciar
-        loadArticles();
+    <!-- Script para el efecto de red global -->
+    <script>
+        // Configuración del canvas para la red global
+        const canvas = document.getElementById('network-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Ajustar tamaño inicial
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        
+        // Nodos de la red (ciudades importantes)
+        const nodes = [
+            { x: 0.15, y: 0.3, size: 3, connections: [] },  // América del Norte
+            { x: 0.25, y: 0.5, size: 4, connections: [] },  // América Central
+            { x: 0.3, y: 0.7, size: 3, connections: [] },   // América del Sur
+            { x: 0.7, y: 0.25, size: 5, connections: [] },  // Europa
+            { x: 0.8, y: 0.4, size: 4, connections: [] },   // Medio Oriente
+            { x: 0.85, y: 0.6, size: 5, connections: [] },  // Asia
+            { x: 0.75, y: 0.8, size: 3, connections: [] },  // Australia
+            { x: 0.5, y: 0.5, size: 6, connections: [] }    // Nodo central (tu ubicación)
+        ];
+        
+        // Crear conexiones entre nodos
+        nodes.forEach((node, i) => {
+            // Conectar con el nodo central
+            if (i !== nodes.length - 1) {
+                node.connections.push(nodes.length - 1);
+            }
+            
+            // Algunas conexiones adicionales
+            if (i === 0) node.connections.push(1, 3);  // NA -> CA, EU
+            if (i === 3) node.connections.push(5);     // EU -> Asia
+            if (i === 5) node.connections.push(6);     // Asia -> Australia
+        });
+        
+        // Partículas de datos
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random(),
+                y: Math.random(),
+                size: Math.random() * 2 + 1,
+                speed: Math.random() * 0.002 + 0.001,
+                path: [],
+                currentTarget: Math.floor(Math.random() * nodes.length),
+                color: `rgba(255, ${Math.floor(100 + Math.random() * 155)}, 50, ${0.5 + Math.random() * 0.5})`
+            });
+        }
+        
+        function animate() {
+            // Limpiar canvas con fondo semi-transparente para efecto de rastro
+            ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Dibujar conexiones
+            nodes.forEach(node => {
+                node.connections.forEach(connIndex => {
+                    const target = nodes[connIndex];
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(node.x * canvas.width, node.y * canvas.height);
+                    ctx.lineTo(target.x * canvas.width, target.y * canvas.height);
+                    ctx.strokeStyle = `rgba(14, 165, 233, ${0.1 + Math.random() * 0.1})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                });
+            });
+            
+            // Dibujar nodos
+            nodes.forEach(node => {
+                ctx.beginPath();
+                ctx.arc(
+                    node.x * canvas.width, 
+                    node.y * canvas.height, 
+                    node.size * (1 + Math.sin(Date.now() * 0.001) * 0.2), 
+                    0, 
+                    Math.PI * 2
+                );
+                ctx.fillStyle = `rgba(14, 165, 233, ${0.7 + Math.random() * 0.3})`;
+                ctx.fill();
+                
+                // Efecto de halo
+                ctx.beginPath();
+                ctx.arc(
+                    node.x * canvas.width, 
+                    node.y * canvas.height, 
+                    node.size * 2, 
+                    0, 
+                    Math.PI * 2
+                );
+                ctx.fillStyle = `rgba(14, 165, 233, 0.2)`;
+                ctx.fill();
+            });
+            
+            // Actualizar y dibujar partículas
+            particles.forEach(particle => {
+                const target = nodes[particle.currentTarget];
+                const dx = target.x - particle.x;
+                const dy = target.y - particle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                // Mover hacia el objetivo
+                if (distance > 0.01) {
+                    particle.x += dx * particle.speed;
+                    particle.y += dy * particle.speed;
+                } else {
+                    // Cambiar a un nuevo objetivo aleatorio
+                    particle.currentTarget = Math.floor(Math.random() * nodes.length);
+                }
+                
+                // Guardar posición en el camino
+                particle.path.push({ x: particle.x, y: particle.y });
+                if (particle.path.length > 20) {
+                    particle.path.shift();
+                }
+                
+                // Dibujar camino
+                if (particle.path.length > 1) {
+                    ctx.beginPath();
+                    ctx.moveTo(
+                        particle.path[0].x * canvas.width, 
+                        particle.path[0].y * canvas.height
+                    );
+                    
+                    for (let i = 1; i < particle.path.length; i++) {
+                        ctx.lineTo(
+                            particle.path[i].x * canvas.width, 
+                            particle.path[i].y * canvas.height
+                        );
+                    }
+                    
+                    ctx.strokeStyle = particle.color.replace(')', ', 0.5)').replace('rgb', 'rgba');
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+                
+                // Dibujar partícula
+                ctx.beginPath();
+                ctx.arc(
+                    particle.x * canvas.width, 
+                    particle.y * canvas.height, 
+                    particle.size, 
+                    0, 
+                    Math.PI * 2
+                );
+                ctx.fillStyle = particle.color;
+                ctx.fill();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // Manejar redimensionamiento
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+        });
+        
+        // Iniciar animación
+        animate();
     </script>
 </body>
 </html>
