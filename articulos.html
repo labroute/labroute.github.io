@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
     
     <!-- Highlight.js -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
     
     <style>
@@ -77,27 +77,51 @@
         .difficulty-advanced { color: #ef4444 !important; background: rgba(239, 68, 68, 0.1) !important; }
 
         /* Estilos para código */
-        .prose :where(code) {
-            background: #1e293b;
-            padding: 0.2rem 0.4rem;
-            border-radius: 0.25rem;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            font-family: 'Fira Code', monospace;
-        }
+    .prose :where(code) {
+        font-family: 'Fira Code', monospace;
+        background: #1e293b;
+        padding: 0.2em 0.4em;
+        border-radius: 0.25rem;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        color: #e2e8f0;
+        font-size: 0.9em;
+    }
 
-        .prose pre {
-            background: #1e293b;
-            border: 1px solid rgba(148, 163, 184, 0.1);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            overflow: auto;
-        }
+    /* Bloques de código */
+    .prose pre {
+        background: #1e293b !important;
+        border-radius: 0.5rem;
+        padding: 1.25rem;
+        margin: 1.5rem 0;
+        overflow: auto;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
 
-        .prose pre code {
-            background: transparent;
-            padding: 0;
-            border: 0;
-        }
+    .prose pre code {
+        background: transparent !important;
+        padding: 0 !important;
+        border: none !important;
+        font-family: 'Fira Code', monospace;
+        font-size: 0.9em;
+        line-height: 1.5;
+        color: #e2e8f0;
+    }
+
+    /* Mejora el scrollbar para bloques de código */
+    .prose pre::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .prose pre::-webkit-scrollbar-track {
+        background: rgba(148, 163, 184, 0.1);
+        border-radius: 3px;
+    }
+
+    .prose pre::-webkit-scrollbar-thumb {
+        background: rgba(148, 163, 184, 0.4);
+        border-radius: 3px;
+    }
 
         /* Efecto de red global */
         #network-canvas {
@@ -642,3 +666,4 @@
     </script>
 </body>
 </html>
+
