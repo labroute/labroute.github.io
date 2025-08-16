@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel LabRoute</title>
   <!-- Importa tus estilos de Tailwind -->
+
+  <script>
+  // Logger temporal para ver qué llega desde el popup OAuth
+  window.addEventListener("message", (event) => {
+    try {
+      console.log("[Decap DEBUG] message event:", event.data);
+    } catch (e) {
+      console.log("[Decap DEBUG] message event (non-serializable)");
+    }
+  });
+</script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* Personaliza el CMS para que coincida con tu diseño */
