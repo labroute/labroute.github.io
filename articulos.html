@@ -38,6 +38,26 @@
             background-clip: text;
         }
 
+        .nav-link {
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-blue), var(--accent-orange));
+    transition: left 0.3s ease;
+}
+
+.nav-link:hover::after {
+    left: 0;
+}
+
         .card-hover {
             transition: all 0.3s ease;
         }
@@ -776,6 +796,7 @@ code:not(pre code) {
     </script>
 </body>
 </html>
+
 
 
 
