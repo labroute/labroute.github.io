@@ -29,36 +29,42 @@
 <body class="bg-slate-900">
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
-  // Fuerza a persistir el token recibido y recargar el panel
+  // Fuerza a persistir el token en las claves que Decap reconoce y recargar el panel
   (function () {
-    function persistAndReload(token) {
+    function persist(token) {
+      const payload = {
+        token: token,
+        backendName: "github",
+        provider: "github",
+        login: "oauth"
+      };
       try {
-        localStorage.setItem(
-          "netlify-cms-user",
-          JSON.stringify({
-            token: token,
-            backendName: "github",
-            login: "oauth",
-            provider: "github",
-          })
-        );
-        // Pequeña espera para asegurar escritura en storage y luego recarga
-        setTimeout(function () { window.location.reload(); }, 200);
+        // Clave usada por Decap CMS moderno
+        localStorage.setItem("decap-cms-user", JSON.stringify(payload));
+        // Clave legacy (por si el bundle que carga está esperando ésta)
+        localStorage.setItem("netlify-cms-user", JSON.stringify(payload));
+        // Comprobación rápida en consola
+        console.log("[Decap FORCE LOGIN] guardado en decap-cms-user y netlify-cms-user");
       } catch (e) {
         console.error("[Decap FORCE LOGIN] Error guardando token:", e);
       }
     }
 
+    function persistAndReload(token) {
+      persist(token);
+      setTimeout(function () { window.location.reload(); }, 250);
+    }
+
     window.addEventListener("message", function (event) {
       try {
-        // Caso 1: formato string "authorization:github:success:<TOKEN>"
+        // Formato string "authorization:github:success:<TOKEN>"
         if (typeof event.data === "string" && event.data.indexOf("authorization:github:success:") === 0) {
-          var token = event.data.split(":").pop();
+          const token = event.data.split(":").pop();
           console.log("[Decap FORCE LOGIN] Token (string) capturado");
           persistAndReload(token);
           return;
         }
-        // Caso 2: formato objeto { token: "...", provider: "github" }
+        // Formato objeto { token: "...", provider: "github" }
         if (event.data && event.data.token) {
           console.log("[Decap FORCE LOGIN] Token (objeto) capturado");
           persistAndReload(event.data.token);
@@ -70,6 +76,7 @@
     });
   })();
 </script>
+
 
 </body>
 </html>
