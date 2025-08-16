@@ -88,20 +88,27 @@
   <div class="orb orb--sky"></div>
   <div class="orb orb--violet"></div>
 
-  <!-- Header -->
-  <header class="w-full">
-    <div class="container mx-auto px-6 py-6 flex items-center justify-between">
-      <a href="/" class="text-2xl md:text-3xl font-extrabold text-sky-300">&lt;LabRoute&gt;</a>
-      <nav class="hidden md:flex items-center gap-6 text-slate-300">
-        <a class="hover:text-white" href="/">Inicio</a>
-        <a class="hover:text-white" href="/sobre-mi">Sobre Mi</a>
-        <a class="hover:text-white" href="/series">Series</a>
-        <a class="hover:text-white" href="/recursos">Recursos</a>
-        <a class="text-white font-semibold" href="/articulos">Artículos</a>
-        <a class="hover:text-white" href="/contacto">Contacto</a>
-      </nav>
-    </div>
-  </header>
+  <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-slate-900/80 backdrop-blur-lg border-b border-slate-800 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold gradient-text">&lt;/LabRoute&gt;</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link hover:text-blue-400 transition-colors">Inicio</a>
+                    <a href="#about" class="nav-link hover:text-blue-400 transition-colors">Sobre Mí</a>
+                    <a href="#services" class="nav-link hover:text-blue-400 transition-colors">Series</a>
+                    <a href="#content" class="nav-link hover:text-blue-400 transition-colors">Recursos</a>
+		    <a href="articulos.html" class="nav-link hover:text-blue-400 transition-colors">Artículos</a>
+                    <a href="#contact" class="nav-link hover:text-blue-400 transition-colors">Contacto</a>
+                </div>
+                <button class="md:hidden text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
 
   <main class="flex-1">
     <!-- Hero -->
@@ -373,3 +380,4 @@
   </script>
 </body>
 </html>
+
