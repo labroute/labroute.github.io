@@ -78,100 +78,83 @@
 
 /* Estilos para código - Estilo minimalista con colores del sitio */
 .prose :where(code):not(pre code) {
-    background: rgba(14, 165, 233, 0.1);
-    color: #0ea5e9;
-    padding: 0.2rem 0.5rem;
-    border-radius: 0.375rem;
-    border: 1px solid rgba(14, 165, 233, 0.2);
-    font-family: 'Fira Code', monospace;
-    font-size: 0.9em;
-    font-weight: 500;
+    background: rgba(14, 165, 233, 0.1) !important;
+    color: #0ea5e9 !important;
+    padding: 0.2rem 0.5rem !important;
+    border-radius: 0.375rem !important;
+    border: 1px solid rgba(14, 165, 233, 0.2) !important;
+    font-family: 'Fira Code', monospace !important;
+    font-size: 0.9em !important;
+    font-weight: 500 !important;
 }
 
 .prose pre {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    overflow-x: auto;
-    margin: 1.5rem 0;
-    position: relative;
-    color: #1e293b;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-left: 4px solid #0ea5e9 !important;
+    border-radius: 0.75rem !important;
+    padding: 1.5rem !important;
+    overflow-x: auto !important;
+    margin: 1.5rem 0 !important;
+    position: relative !important;
 }
 
 .prose pre::before {
-    content: 'Example';
-    position: absolute;
-    top: 1rem;
-    left: 1.5rem;
-    color: #64748b;
-    font-size: 0.875rem;
-    font-weight: 600;
-    font-family: 'Inter', sans-serif;
+    content: 'Example' !important;
+    position: absolute !important;
+    top: 1rem !important;
+    left: 1.5rem !important;
+    color: #64748b !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    font-family: 'Inter', sans-serif !important;
+    z-index: 10 !important;
 }
 
 .prose pre::after {
-    content: 'Get your own C# Server';
-    position: absolute;
-    top: 0.75rem;
-    right: 1rem;
-    background: #374151;
-    color: white;
-    padding: 0.375rem 0.75rem;
-    border-radius: 0.375rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
+    content: 'Ver en LabRoute' !important;
+    position: absolute !important;
+    top: 0.75rem !important;
+    right: 1rem !important;
+    background: #374151 !important;
+    color: white !important;
+    padding: 0.375rem 0.75rem !important;
+    border-radius: 0.375rem !important;
+    font-size: 0.75rem !important;
+    font-weight: 500 !important;
+    font-family: 'Inter', sans-serif !important;
+    z-index: 10 !important;
 }
 
 .prose pre code {
-    background: transparent;
-    padding: 0;
-    border: 0;
-    color: #1e293b;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.875rem;
-    line-height: 1.6;
-    display: block;
-    margin-top: 2rem;
-    position: relative;
-    z-index: 2;
+    background: transparent !important;
+    padding: 0 !important;
+    border: 0 !important;
+    color: #1e293b !important;
+    font-family: 'Fira Code', monospace !important;
+    font-size: 0.875rem !important;
+    line-height: 1.6 !important;
+    display: block !important;
+    margin-top: 2rem !important;
+    position: relative !important;
+    z-index: 2 !important;
 }
 
-/* Barra lateral azul como en la imagen */
-.prose pre {
-    border-left: 4px solid #0ea5e9;
+/* Forzar colores específicos sobre Highlight.js */
+.prose pre code,
+.prose pre code * {
+    color: #1e293b !important;
 }
 
-/* Colores de sintaxis minimalistas */
-.prose pre code .hljs-keyword { color: #0ea5e9; font-weight: 600; }
-.prose pre code .hljs-string { color: #059669; }
-.prose pre code .hljs-number { color: #dc2626; }
-.prose pre code .hljs-comment { color: #6b7280; font-style: italic; }
-.prose pre code .hljs-function { color: #7c3aed; }
-.prose pre code .hljs-variable { color: #1e293b; }
-.prose pre code .hljs-type { color: #0ea5e9; }
-.prose pre code .hljs-built_in { color: #0891b2; }
-.prose pre code .hljs-title { color: #7c3aed; }
-
-/* Scrollbar sutil */
-.prose pre::-webkit-scrollbar {
-    height: 6px;
-}
-
-.prose pre::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 3px;
-}
-
-.prose pre::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 3px;
-}
-
-.prose pre::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-}
+.prose pre code .hljs-keyword { color: #0ea5e9 !important; font-weight: 600 !important; }
+.prose pre code .hljs-string { color: #059669 !important; }
+.prose pre code .hljs-number { color: #dc2626 !important; }
+.prose pre code .hljs-comment { color: #6b7280 !important; font-style: italic !important; }
+.prose pre code .hljs-function { color: #7c3aed !important; }
+.prose pre code .hljs-variable { color: #1e293b !important; }
+.prose pre code .hljs-type { color: #0ea5e9 !important; }
+.prose pre code .hljs-built_in { color: #0891b2 !important; }
+.prose pre code .hljs-title { color: #7c3aed !important; }
         /* Efecto de red global */
         #network-canvas {
             position: fixed;
@@ -715,6 +698,7 @@
     </script>
 </body>
 </html>
+
 
 
 
