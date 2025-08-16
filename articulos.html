@@ -2,82 +2,114 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Artículos Técnicos - LabRoute</title>
 
-  <!-- Tailwind (mismo stack visual que venías usando) -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Estilos mínimos para badges y tarjetas (coinciden con tu look & feel) -->
+  <!-- Estilos mínimos para mantener look & feel -->
   <style>
-    body { background: radial-gradient(1200px 800px at 50% -200px, rgba(56,189,248,.08), transparent 60%) #0b1220; color: #e5e7eb; }
+    :root {
+      --bg: #0b1220;
+      --card: rgba(15,23,42,.60);
+      --border: rgba(148,163,184,.28);
+      --border-hover: rgba(148,163,184,.55);
+      --muted: #93a3b8;
+    }
+    body {
+      background: radial-gradient(1200px 800px at 50% -220px, rgba(56,189,248,.08), transparent 60%) var(--bg);
+      color: #e5e7eb;
+    }
     .container { max-width: 1200px; }
-    .section-title { font-weight: 800; letter-spacing: .3px; }
-    .subtitle { color: #93a3b8; }
-
-    .article-card { background: rgba(15,23,42,.6); border: 1px solid rgba(100,116,139,.25); border-radius: 1rem; }
-    .article-card:hover { border-color: rgba(148,163,184,.55); box-shadow: 0 10px 25px rgba(0,0,0,.25); }
-    .category-badge{
-      display:inline-block; font-size:.70rem; font-weight:700; letter-spacing:.4px;
-      padding:.25rem .55rem; border-radius:.5rem; background:#1f2937; color:#60a5fa; border:1px solid rgba(100,116,139,.35);
+    .pill { border:1px solid var(--border); background: rgba(15,23,42,.55); }
+    .article-card {
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius: 1rem;
+      transition: border-color .2s, box-shadow .2s, transform .2s;
     }
-    .difficulty-badge{
-      display:inline-block; font-size:.70rem; font-weight:700; letter-spacing:.4px;
-      padding:.25rem .55rem; border-radius:.5rem; margin-left:.4rem; border:1px solid rgba(100,116,139,.35);
-      background:#1f2937; color:#f59e0b;
+    .article-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+      transform: translateY(-1px);
     }
-    .difficulty-beginner { color:#34d399; }
-    .difficulty-intermediate { color:#f59e0b; }
-    .difficulty-advanced { color:#f87171; }
-    .pill { border: 1px solid rgba(148,163,184,.25); background: rgba(15,23,42,.55); }
+    .category-badge, .difficulty-badge {
+      display:inline-block; font-size:.70rem; font-weight:700; letter-spacing:.35px;
+      padding:.28rem .6rem; border-radius:.55rem; background:#1f2937; border:1px solid rgba(100,116,139,.35);
+    }
+    .category-badge { color:#60a5fa; }
+    .difficulty-badge { color:#f59e0b; }
+    .difficulty-beginner { color:#34d399 !important; }
+    .difficulty-intermediate { color:#f59e0b !important; }
+    .difficulty-advanced { color:#f87171 !important; }
+    .subtitle { color: var(--muted); }
+    .prose :where(code){ background:#0f172a; padding:.12rem .28rem; border-radius:.35rem; }
     .hidden { display:none; }
   </style>
 </head>
 
-<body class="min-h-screen">
+<body class="min-h-screen flex flex-col">
   <!-- Header -->
-  <header class="py-10">
-    <div class="container mx-auto px-6">
-      <h1 class="text-4xl md:text-5xl section-title text-sky-300">&lt;LabRoute&gt;</h1>
+  <header class="w-full">
+    <div class="container mx-auto px-6 py-6 flex items-center justify-between">
+      <a href="/" class="text-2xl md:text-3xl font-extrabold text-sky-300">&lt;LabRoute&gt;</a>
+      <nav class="hidden md:flex items-center gap-6 text-slate-300">
+        <a class="hover:text-white" href="/">Inicio</a>
+        <a class="hover:text-white" href="/sobre-mi">Sobre Mi</a>
+        <a class="hover:text-white" href="/series">Series</a>
+        <a class="hover:text-white" href="/recursos">Recursos</a>
+        <a class="text-white font-semibold" href="/articulos">Artículos</a>
+        <a class="hover:text-white" href="/contacto">Contacto</a>
+      </nav>
     </div>
   </header>
 
-  <main class="container mx-auto px-6 pb-24">
-    <!-- Título + descripción -->
-    <section class="mb-10">
-      <h2 class="text-center text-3xl md:text-4xl font-extrabold mb-3">Todos los Artículos</h2>
-      <p class="subtitle text-center max-w-3xl mx-auto">
-        Conocimiento técnico organizado por categorías y dificultad
-      </p>
-    </section>
+  <main class="flex-1">
+    <!-- Hero -->
+    <section class="container mx-auto px-6 pt-6 pb-4">
+      <div class="text-center">
+        <div class="inline-flex items-center px-3 py-1 rounded-full pill text-sky-300 text-sm mb-5">
+          🧭 Centro de Conocimiento
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold">
+          Artículos <span class="text-sky-300">Técnicos</span>
+        </h1>
+        <p class="subtitle max-w-3xl mx-auto mt-4">
+          Análisis profundos, guías paso a paso y conocimientos de ciberseguridad. Contenido estructurado para elevar tu expertise.
+        </p>
+      </div>
 
-    <!-- Controles (Búsqueda + Filtros) -->
-    <section class="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div class="flex gap-2 flex-wrap">
+      <!-- Buscador -->
+      <div class="max-w-3xl mx-auto mt-8">
+        <div class="relative">
+          <input class="search-bar w-full pill px-5 py-3 rounded-xl placeholder-slate-400 text-slate-200"
+                 type="search" placeholder="Buscar artículos, técnicas, herramientas…" />
+          <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500">⌘K</span>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="flex flex-wrap gap-2 justify-center mt-6">
         <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Todos">Todos</button>
+        <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Penetration Testing">Penetration Testing</button>
         <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Network Security">Network Security</button>
+        <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Threat Hunting">Threat Hunting</button>
         <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Automation">Automation</button>
         <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="OSINT">OSINT</button>
-        <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Threat Hunting">Threat Hunting</button>
         <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Malware Analysis">Malware Analysis</button>
-        <button class="filter-button pill text-sm px-4 py-2 rounded-xl" data-filter="Penetration Testing">Penetration Testing</button>
-      </div>
-      <div class="relative max-w-sm">
-        <input class="search-bar w-full pill px-4 py-2 rounded-xl placeholder-slate-400 text-slate-200"
-               type="search" placeholder="Buscar artículos…" />
-        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500">⌘K</span>
       </div>
     </section>
 
     <!-- LISTADO -->
-    <section id="articles-list-section" class="bg-slate-800/30 rounded-2xl p-6">
+    <section id="articles-list-section" class="container mx-auto px-6 mt-6">
       <div id="articles-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Se rellena dinámicamente -->
+        <!-- tarjetas dinámicas -->
       </div>
     </section>
 
     <!-- DETALLE -->
-    <section id="article-detail" class="hidden mt-12">
+    <section id="article-detail" class="hidden container mx-auto px-6 mt-12">
       <a id="back-to-articles" href="#" class="inline-flex items-center text-sky-400 hover:text-sky-300 mb-6">
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
@@ -85,30 +117,54 @@
       </a>
 
       <article class="article-card p-8">
-        <div class="flex flex-wrap items-center gap-2 article-meta mb-4">
-          <!-- badges dinámicas -->
-        </div>
+        <div class="flex flex-wrap items-center gap-2 article-meta mb-4"></div>
         <h1 class="text-3xl md:text-4xl font-extrabold mb-4">Título</h1>
-        <div class="article-content prose prose-invert max-w-none">
-          <!-- contenido renderizado desde Markdown -->
-        </div>
+        <div class="article-content prose prose-invert max-w-none"></div>
       </article>
     </section>
   </main>
 
+  <!-- Footer -->
+  <footer class="mt-16">
+    <div class="container mx-auto px-6 py-10 text-sm text-slate-400 border-t border-slate-800">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div>© <span id="y"></span> LabRoute. Todos los derechos reservados.</div>
+        <div class="flex gap-4">
+          <a href="/privacidad" class="hover:text-slate-200">Privacidad</a>
+          <a href="/terminos" class="hover:text-slate-200">Términos</a>
+        </div>
+      </div>
+    </div>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  </footer>
+
   <!-- Librerías para parsear Front Matter y Markdown -->
-  <script src="https://cdn.jsdelivr.net/npm/gray-matter@3.1.1/dist/gray-matter.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- Lógica: listar, filtrar y mostrar detalle desde GitHub -->
+  <!-- Parser de front matter (YAML al inicio) -->
   <script>
-    // === Config (ajusta si cambiás algo) ===
+    function parseFrontMatter(text) {
+      if (text.slice(0,3) !== '---') return { data:{}, content:text };
+      const end = text.indexOf('\n---', 3);
+      if (end === -1) return { data:{}, content:text };
+      const yaml = text.slice(3, end);
+      const body = text.slice(end + 4);
+      let data = {};
+      try { data = jsyaml.load(yaml) || {}; } catch(e) { data = {}; }
+      return { data, content: body.trim() };
+    }
+  </script>
+
+  <!-- Lógica: listar, filtrar y detalle desde GitHub -->
+  <script>
+    // === CONFIG === (ajústalas si cambias algo)
     const GH_USER   = "labroute";
     const GH_REPO   = "labroute.github.io";
     const GH_BRANCH = "main";
-    const CONTENT_PATH = "articulos/contenido"; // donde Decap guarda los .md
+    const CONTENT_PATH = "articulos/contenido"; // carpeta de .md que crea el CMS
 
-    // Elementos UI
+    // Hooks UI (respetamos tu estructura)
     const gridEl        = document.getElementById("articles-grid");
     const listSection   = document.getElementById("articles-list-section");
     const detailSection = document.getElementById("article-detail");
@@ -117,19 +173,18 @@
     const filterBtns    = document.querySelectorAll(".filter-button");
 
     let ARTICLES = [];
-    let CURRENT  = null;
 
-    // Helpers de UI
-    const diffClass = (d) => d === "Avanzado" ? "difficulty-advanced" : (d === "Intermedio" ? "difficulty-intermediate" : "difficulty-beginner");
+    // Helpers
+    const diffClass = (d) =>
+      d === "Avanzado" ? "difficulty-advanced" :
+      d === "Intermedio" ? "difficulty-intermediate" : "difficulty-beginner";
 
     function cardTemplate(a) {
       return `
-        <div class="article-card rounded-2xl p-6">
+        <div class="article-card p-6">
           <div class="mb-3">
             <span class="category-badge">${a.category || "General"}</span>
-            <span class="difficulty-badge ${diffClass(a.difficulty || "Intermedio")}">
-              ${a.difficulty || "Intermedio"}
-            </span>
+            <span class="difficulty-badge ${diffClass(a.difficulty || "Intermedio")}">${a.difficulty || "Intermedio"}</span>
           </div>
           <h3 class="text-xl font-bold mb-3">${a.title}</h3>
           <p class="text-slate-400 mb-4 text-sm leading-relaxed">${a.excerpt || ""}</p>
@@ -143,8 +198,7 @@
             </div>
             <div class="flex items-center">
               <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
               </svg>
@@ -152,7 +206,7 @@
             </div>
           </div>
           <div class="text-xs text-slate-500 mb-4">
-            Publicado: ${a.date ? new Date(a.date).toLocaleDateString("es-ES", {day:"2-digit", month:"long", year:"numeric"}) : "—"}
+            Publicado: ${a.date ? new Date(a.date).toLocaleDateString("es-ES",{day:"2-digit",month:"long",year:"numeric"}) : "—"}
           </div>
           <button class="block w-full text-center bg-slate-700 text-white py-2 rounded-lg hover:bg-slate-600 transition-colors"
                   data-slug="${a.slug}">
@@ -176,33 +230,25 @@
     async function openDetail(slug) {
       const art = ARTICLES.find(x => x.slug === slug);
       if (!art) return;
-      CURRENT = art;
 
-      // Cabecera del detalle
       const metaWrap = detailSection.querySelector(".article-meta");
       metaWrap.innerHTML = `
         <span class="category-badge">${art.category || "General"}</span>
-        <span class="difficulty-badge ${diffClass(art.difficulty || "Intermedio")}">
-          ${art.difficulty || "Intermedio"}
-        </span>
-        <span class="ml-2 text-sm text-slate-400">
-          ${art.reading_time ? `${art.reading_time} min lectura` : ""}
-        </span>
+        <span class="difficulty-badge ${diffClass(art.difficulty || "Intermedio")}">${art.difficulty || "Intermedio"}</span>
+        <span class="ml-2 text-sm text-slate-400">${art.reading_time ? `${art.reading_time} min lectura` : ""}</span>
       `;
       detailSection.querySelector("h1").textContent = art.title;
 
-      // Cuerpo del detalle (Markdown -> HTML con marked)
       const contentEl = detailSection.querySelector(".article-content");
       const cover = art.cover ? `<img src="${art.cover}" alt="${art.title}" class="w-full h-64 object-cover rounded-xl mb-8">` : "";
       contentEl.innerHTML = cover + marked.parse(art.body || "");
 
-      // Mostrar detalle / ocultar listado
       listSection.classList.add("hidden");
       detailSection.classList.remove("hidden");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    backBtn.addEventListener("click", (e) => {
+    document.getElementById("back-to-articles").addEventListener("click", (e) => {
       e.preventDefault();
       detailSection.classList.add("hidden");
       listSection.classList.remove("hidden");
@@ -210,13 +256,12 @@
     });
 
     // Filtros y búsqueda
-    filterBtns.forEach(btn => {
+    document.querySelectorAll(".filter-button").forEach(btn => {
       btn.addEventListener("click", () => {
-        filterBtns.forEach(b => b.classList.remove("ring-2", "ring-sky-500"));
-        btn.classList.add("ring-2", "ring-sky-500");
+        document.querySelectorAll(".filter-button").forEach(b => b.classList.remove("ring-2","ring-sky-500"));
+        btn.classList.add("ring-2","ring-sky-500");
         const cat = btn.dataset.filter;
-        const list = (cat === "Todos")
-          ? ARTICLES
+        const list = (cat === "Todos") ? ARTICLES
           : ARTICLES.filter(a => (a.category || "").toLowerCase() === cat.toLowerCase());
         renderCards(list);
       });
@@ -233,32 +278,23 @@
       });
     }
 
-    // === Carga desde GitHub (API pública) ===
-    async function fetchJSON(url) {
-      const r = await fetch(url);
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      return r.json();
-    }
-    async function fetchText(url) {
-      const r = await fetch(url);
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      return r.text();
-    }
+    // Fetch helpers
+    async function fetchJSON(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }
+    async function fetchText(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); }
 
+    // Carga desde GitHub
     async function loadArticles() {
-      // 1) Lista de archivos
       const listURL = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${CONTENT_PATH}?ref=${GH_BRANCH}`;
       const files = await fetchJSON(listURL);
-      const mdFiles = files.filter(f => f.name.endsWith(".md"));
+      const mdFiles = files.filter(f => f.name.toLowerCase().endsWith(".md"));
 
-      // 2) Parsear cada MD
       const items = [];
       for (const f of mdFiles) {
         const rawURL = `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/${GH_BRANCH}/${CONTENT_PATH}/${encodeURIComponent(f.name)}`;
         const text = await fetchText(rawURL);
-        const parsed = window.matter(text); // gray-matter
+        const parsed = parseFrontMatter(text);
+        const data   = parsed.data || {};
 
-        const data = parsed.data || {};
         items.push({
           slug: f.name.replace(/\.md$/i,""),
           title: data.title || f.name,
@@ -273,16 +309,15 @@
         });
       }
 
-      // 3) Ordenar por fecha (desc)
-      items.sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0));
+      // Orden por fecha desc
+      items.sort((a,b)=> new Date(b.date||0) - new Date(a.date||0));
 
       ARTICLES = items;
       renderCards(ARTICLES);
     }
 
-    // Arranque
     loadArticles().catch(err => {
-      console.error("Error cargando artículos:", err);
+      console.error("Error_cargando_articulos:", err);
       gridEl.innerHTML = `<div class="text-slate-400">No se pudieron cargar los artículos.</div>`;
     });
   </script>
