@@ -112,6 +112,21 @@ Cerrando…
     };
   }
 
+  // /auth/debug -> devuelve si las env vars existen (sin exponerlas)
+  if (pathname.endsWith("/debug")) {
+    const idOk = !!CLIENT_ID && CLIENT_ID.length > 10;
+    const secretOk = !!CLIENT_SECRET && CLIENT_SECRET.length > 10;
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        env_ok: idOk && secretOk,
+        client_id_present: idOk,
+        client_secret_present: secretOk
+      }),
+    };
+  }
+  
   // Fallback: inicia flujo
   const base = `${siteURL(event)}/.netlify/functions/auth`;
   return { statusCode: 302, headers: { Location: base } };
