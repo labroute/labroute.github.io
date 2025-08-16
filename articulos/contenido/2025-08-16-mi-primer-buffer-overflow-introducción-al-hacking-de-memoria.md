@@ -11,17 +11,17 @@ difficulty: Intermedio
 reading_time: 7
 cover: /static/img/chatgpt-image-aug-15-2025-09_15_37-pm.png
 ---
-#### Introducción
+# Introducción
 
 El *Buffer Overflow* es uno de los primeros conceptos que muchos hackers éticos y especialistas en seguridad informática estudian. Se trata de un error de programación que ocurre cuando un programa escribe más datos de los que un buffer (memoria reservada) puede almacenar.
 
-#### ¿Qué es un Buffer?
+# ¿Qué es un Buffer?
 
 Un *buffer* es un espacio en memoria destinado a almacenar datos temporales. Por ejemplo, cuando un programa pide al usuario que ingrese su nombre, este se guarda en un buffer.
 
 El problema surge cuando el programador no valida la longitud de lo que se ingresa, permitiendo que datos extra sobrescriban otras partes de la memoria.
 
-#### Ejemplo sencillo
+## Ejemplo sencillo
 
 Imagina que un programa reserva 10 espacios de memoria para un nombre:
 
@@ -31,16 +31,15 @@ Si el usuario escribe *"Solo"* (4 letras), todo bien.
 
 Pero si escribe *"AAAAAAAAAAAAAAAAAAAAAAAA"* (30 caracteres), el programa no sabrá detenerse y sobrescribirá memoria adyacente.
 
-#### Impacto en la seguridad
+# Impacto en la seguridad
 
 Un atacante puede aprovechar un *Buffer Overflow* para:
 
-*  Sobrescribir instrucciones del programa.
+* Sobrescribir instrucciones del programa.
   Redirigir el flujo de ejecución.
 * Ejecutar código malicioso.
 
 Este tipo de ataque ha sido usado en numerosos exploits históricos y es base para aprender sobre **explotación avanzada**.
-
 
  Ejemplo real en C
 
@@ -52,37 +51,30 @@ Este tipo de ataque ha sido usado en numerosos exploits históricos y es base pa
 
 `int main() {`
 
-`    char buffer[10];`
+`char buffer[10];`
 
-`    printf("Escribe tu nombre: ");`
+`printf("Escribe tu nombre: ");`
 
-`    gets(buffer); // ⚠️ vulnerable`
+`gets(buffer); // ⚠️ vulnerable`
 
-`    printf("Hola, %s\n", buffer);`
+`printf("Hola, %s\n", buffer);`
 
-`    return 0;`
+`return 0;`
 
 `}`
 
-
 El uso de `gets()` sin validación es un ejemplo clásico de función vulnerable.
 
-
-#### Mitigaciones modernas
+# Mitigaciones modernas
 
 Hoy en día existen varias defensas:
 
-*  **Stack Canaries** 🛡️: detectan sobreescritura de memoria.
+* **Stack Canaries** 🛡️: detectan sobreescritura de memoria.
 
   **DEP (Data Execution Prevention)**: evita ejecutar código en memoria de datos.
 
   **ASLR (Address Space Layout Randomization)**: aleatoriza direcciones en memoria.
 
-
-
-
-
-
-#### Conclusión
+# Conclusión
 
 Aprender *Buffer Overflow* es abrir la puerta al mundo del hacking y entender cómo pequeños errores de programación pueden convertirse en grandes vulnerabilidades. Es un conocimiento esencial para todo profesional de la ciberseguridad.
