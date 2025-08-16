@@ -8,6 +8,10 @@
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Highlight.js (resaltado de código) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
+
   <!-- Estilos mínimos para mantener look & feel -->
   <style>
     :root {
@@ -44,7 +48,28 @@
     .difficulty-intermediate { color:#f59e0b !important; }
     .difficulty-advanced { color:#f87171 !important; }
     .subtitle { color: var(--muted); }
-    .prose :where(code){ background:#0f172a; padding:.12rem .28rem; border-radius:.35rem; }
+
+    /* Código inline y bloques */
+    .prose :where(code){
+      background:#0f172a;
+      padding:.12rem .28rem;
+      border-radius:.35rem;
+      border:1px solid rgba(148,163,184,.15);
+    }
+    .prose pre {
+      background:#0f172a;
+      border:1px solid rgba(148,163,184,.18);
+      border-radius:.75rem;
+      padding:1rem;
+      overflow:auto;
+      margin:1rem 0 1.25rem;
+    }
+    .prose pre code {
+      background:transparent;
+      padding:0;
+      border:0;
+    }
+
     .hidden { display:none; }
   </style>
 </head>
@@ -156,21 +181,31 @@
     }
   </script>
 
-  <!-- Lógica: listar, filtrar y detalle desde GitHub -->
+  <!-- Lógica: listar, filtrar y detalle desde GitHub + resaltado de código -->
   <script>
-    // === CONFIG === (ajústalas si cambias algo)
+    /* === Configurar Marked con Highlight.js === */
+    marked.setOptions({
+      gfm: true,
+      breaks: false,
+      highlight: (code, lang) => {
+        try {
+          return lang ? hljs.highlight(code, { language: lang }).value
+                      : hljs.highlightAuto(code).value;
+        } catch { return hljs.highlightAuto(code).value; }
+      }
+    });
+
+    // === CONFIG ===
     const GH_USER   = "labroute";
     const GH_REPO   = "labroute.github.io";
     const GH_BRANCH = "main";
     const CONTENT_PATH = "articulos/contenido"; // carpeta de .md que crea el CMS
 
-    // Hooks UI (respetamos tu estructura)
+    // Hooks UI
     const gridEl        = document.getElementById("articles-grid");
     const listSection   = document.getElementById("articles-list-section");
     const detailSection = document.getElementById("article-detail");
-    const backBtn       = document.getElementById("back-to-articles");
     const searchEl      = document.querySelector(".search-bar");
-    const filterBtns    = document.querySelectorAll(".filter-button");
 
     let ARTICLES = [];
 
@@ -227,6 +262,16 @@
       });
     }
 
+    function normalizeCover(p) {
+      if (!p) return null;
+      // Si es absoluta, quita el dominio para convertirla en ruta del sitio
+      if (/^https?:\/\//i.test(p)) {
+        try { p = p.replace(/^https?:\/\/[^/]+/, ''); } catch(_) {}
+      }
+      p = String(p).trim().replace(/^['"]|['"]$/g, '');
+      return p.startsWith('/') ? p : `/${p}`;
+    }
+
     async function openDetail(slug) {
       const art = ARTICLES.find(x => x.slug === slug);
       if (!art) return;
@@ -243,6 +288,9 @@
       const cover = art.cover ? `<img src="${art.cover}" alt="${art.title}" class="w-full h-64 object-cover rounded-xl mb-8">` : "";
       contentEl.innerHTML = cover + marked.parse(art.body || "");
 
+      // Aplicar highlight a todos los bloques de código del artículo
+      contentEl.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+
       listSection.classList.add("hidden");
       detailSection.classList.remove("hidden");
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -255,7 +303,7 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
-    // Filtros y búsqueda
+    // Filtros
     document.querySelectorAll(".filter-button").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".filter-button").forEach(b => b.classList.remove("ring-2","ring-sky-500"));
@@ -267,6 +315,7 @@
       });
     });
 
+    // Búsqueda
     if (searchEl) {
       searchEl.addEventListener("input", (e) => {
         const q = e.target.value.toLowerCase();
@@ -282,8 +331,6 @@
     async function fetchJSON(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }
     async function fetchText(u){ const r=await fetch(u); if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); }
 
-
-  <script>  
     // Carga desde GitHub
     async function loadArticles() {
       const listURL = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${CONTENT_PATH}?ref=${GH_BRANCH}`;
@@ -325,5 +372,3 @@
   </script>
 </body>
 </html>
-
-
