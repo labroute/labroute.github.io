@@ -13,8 +13,15 @@ collections:
     label: "Artículos"
     folder: "articulos/contenido"
     create: true
-    slug: "{{slug}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: "md"
+    format: "frontmatter"
     fields:
       - { label: "Título", name: "title", widget: "string" }
       - { label: "Fecha", name: "date", widget: "datetime" }
+      - { label: "Resumen", name: "excerpt", widget: "text", required: false }
+      - { label: "Categoría", name: "category", widget: "select", options: ["Penetration Testing","Network Security","Threat Hunting","Automation","OSINT","Malware Analysis"] }
+      - { label: "Dificultad", name: "difficulty", widget: "select", options: ["Principiante","Intermedio","Avanzado"] }
+      - { label: "Tiempo de lectura (min)", name: "reading_time", widget: "number", required: false }
+      - { label: "Imagen de portada (opcional)", name: "cover", widget: "image", required: false }
       - { label: "Contenido", name: "body", widget: "markdown" }
